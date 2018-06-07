@@ -33,4 +33,13 @@ router.get('/message', controllers.message.get)
 router.post('/message', controllers.message.post)
 
 router.get('/demo', controllers.demo.get)
+
+router.get('/bannerlist', controllers.banner.get)
+router.get('/banner/:id', controllers.banner.get)
+router.post('/banner', controllers.banner.upload.single('file'), controllers.banner.post)
+router.delete('/banner/:id', controllers.banner.del)
+// router.get('/products', controllers.prodects.get)
+// router.post('/products', controllers.products.post)
+// router.get('/news', controllers.news.get)
+// router.post('/news', controllers.news.post)
 module.exports = router
