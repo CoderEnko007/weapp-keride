@@ -30,9 +30,7 @@ async function get(ctx) {
 }
 
 async function patch(ctx) {
-  const {text} = ctx.query;
-  const path = ctx.req.file.path.substr(path.indexOf('\\')+1).replace(/\\/g,"/");
-  const image = `http://${ctx.req.headers.host}/${path}`;
+  const {image, text} = ctx.request.body;
   try {
     await mysql('introduction').select('*').first().update({
       image: image,

@@ -11,7 +11,7 @@
     <img :src="backgroundImage" mode="aspectFill">
     <div class="about">
       <div class="title">关于我们</div>
-      <p class="text zan-ellipsis--l3">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp马鞍山客瑞德机械零部件有限公司是一家高精度磨削整体方案提供商。我们以优质的产品和服务为客户的生产加工保驾护航。公司磨削业务始于2001年，现在已经与国内众多客户保持了多年的长期合作， 优质的产品和服务为我们赢得了良好的口碑， 公司将秉承“诚信、可靠”的企业精神，和中国市场共同迈向一个更高的台阶。</p>
+      <p class="text zan-ellipsis--l3">{{intro}}</p>
       <button class="more" @click="handleMoreClick">了解更多</button>
     </div>
   </div>
@@ -22,16 +22,17 @@
 </template>
 
 <script>
-import {getBanners} from '@/utils/api'
+import {getBanners, getIntro} from "../../utils/api";
 import Swiper from '@/components/Swiper'
 
 export default {
   components: {
-    Swiper
+    Swiper,
   },
   data () {
     return {
       banners: [],
+      intro: [],
       navTab: [
         {icon: '/static/img/company.png', text: '公司简介', url: '/pages/Introduction/main', isTab: false},
         {icon: '/static/img/product1.png', text: '产品中心', url: '/pages/Products/main', isTab: true},
@@ -39,7 +40,7 @@ export default {
         {icon: '/static/img/news.png', text: '新闻动态', url: '/pages/News/main', isTab: false},
         {icon: '/static/img/contact1.png', text: '联系我们', url: '/pages/Contact/main', isTab: true},
       ],
-      backgroundImage: "http://localhost:5757/images/background/background.jpg"
+      backgroundImage: "http://localhost:5757/images/background/1528534095879.jpg"
     }
   },
   methods: {
@@ -48,6 +49,15 @@ export default {
           this.banners = res.data.list
         }).catch(err => {
           console.log(err)
+      })
+    },
+    initIntro() {
+      getIntro().then(res => {
+        this.intro = res.data.text.replace(/<[^>]*>|/g,"");
+        if(res.data.image.length > 0) {
+          this.backgroundImage = res.data.image;
+        }
+        console.log(this.intro, this.backgroundImage)
       })
     },
     swiperClick(itemId) {
@@ -72,6 +82,7 @@ export default {
   },
   mounted () {
     this.initBanners();
+    this.initIntro();
   }
 }
 </script>
@@ -114,6 +125,7 @@ export default {
     overflow: hidden;
     .text {
       margin-top: 15px;
+      text-indent: 2em;
     }
     .more {
       color: white;

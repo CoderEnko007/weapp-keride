@@ -1,6 +1,7 @@
 const multer = require('koa-multer');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log(req)
     cb(null, 'asserts/images/')
   },
   filename: (req, file, cb) => {
