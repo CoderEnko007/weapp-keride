@@ -11,21 +11,27 @@ export default {
 }
 </script>
 
-<style>
-.container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 200rpx 0;
-  box-sizing: border-box;
+<style lang="scss">
+@import "../static/style/zanui.wxss";
+$primary: #206994;
+.primary {
+  color: $primary
 }
-/* this rule will be remove */
-* {
-  transition: width 2s;
-  -moz-transition: width 2s;
-  -webkit-transition: width 2s;
-  -o-transition: width 2s;
+.bg-primary {
+  background-color: $primary;
+}
+.title {
+   position: relative;
+   font-size: 18px;
+   height: 30px;
+ }
+.title::after {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  bottom: 0;
+  content: '';
+  width: 30px;
+  border-bottom: 3px solid white;
 }
 </style>

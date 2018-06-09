@@ -2,7 +2,7 @@
  * ajax 服务路由集合
  */
 const router = require('koa-router')({
-    prefix: '/weapp'
+    prefix: '/api'
 })
 const controllers = require('../controllers')
 
@@ -18,7 +18,7 @@ router.get('/user', validationMiddleware, controllers.user)
 
 // --- 图片上传 Demo --- //
 // 图片上传接口，小程序端可以直接将 url 填入 wx.uploadFile 中
-router.post('/upload', controllers.upload)
+// router.post('/upload', controllers.upload)
 
 // --- 信道服务接口 Demo --- //
 // GET  用来响应请求信道地址的
@@ -34,10 +34,15 @@ router.post('/message', controllers.message.post)
 
 router.get('/demo', controllers.demo.get)
 
+router.post('/upload', controllers.adminUpload.upload.single('file'), controllers.adminUpload.post)
+
 router.get('/bannerlist', controllers.banner.get)
 router.get('/banner/:id', controllers.banner.get)
 router.post('/banner', controllers.banner.upload.single('file'), controllers.banner.post)
 router.delete('/banner/:id', controllers.banner.del)
+
+router.get('/intro', controllers.introduction.get)
+router.patch('/intro', controllers.introduction.patch)
 // router.get('/products', controllers.prodects.get)
 // router.post('/products', controllers.products.post)
 // router.get('/news', controllers.news.get)

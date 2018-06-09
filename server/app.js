@@ -4,7 +4,10 @@ const debug = require('debug')('koa-weapp-demo')
 const response = require('./middlewares/response')
 const bodyParser = require('koa-bodyparser')
 const config = require('./config')
+const cors = require('koa2-cors');
 
+// 解决跨域问题
+app.use(cors());
 // 使用响应处理中间件
 app.use(response)
 

@@ -17,3 +17,9 @@ create table news (
   description varchar(2048) not null,
   image varchar(100)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table introduction (
+  id int not null auto_increment primary key,
+  text varchar(2048) not null,
+  image varchar(100)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
