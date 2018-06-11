@@ -23,3 +23,9 @@ create table introduction (
   text varchar(2048) not null,
   image varchar(100)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table category (
+  id int not null auto_increment primary key,
+  name varchar(100) not null,
+  create_time timestamp default current_timestamp
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

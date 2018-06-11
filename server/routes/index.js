@@ -43,8 +43,15 @@ router.delete('/banner/:id', controllers.banner.del)
 
 router.get('/intro', controllers.introduction.get)
 router.patch('/intro', controllers.introduction.patch)
-// router.get('/products', controllers.prodects.get)
-// router.post('/products', controllers.products.post)
+
+router.get('/categorys', controllers.category.get)
+router.post('/categorys', controllers.category.post)
+router.delete('/categorys/:id', controllers.category.del)
+
+router.get('/products', controllers.products.get)
+router.post('/products', controllers.products.post)
+router.patch('/products', controllers.products.patch)
+router.delete('/products/:id', controllers.products.del)
 // router.get('/news', controllers.news.get)
 // router.post('/news', controllers.news.post)
 module.exports = router

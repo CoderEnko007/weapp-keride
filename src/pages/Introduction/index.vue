@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      backgroundImage: "http://localhost:5757/images/background/1528534095879.jpg",
+      backgroundImage: "http://localhost:5757/images/background/background.jpg",
       intro: '',
       showIntro: false
     }
