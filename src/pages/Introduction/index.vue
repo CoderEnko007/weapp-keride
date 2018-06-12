@@ -12,6 +12,7 @@
 </div>
 </template>
 <script>
+import global from '../../utils/global'
 import {getIntro} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
 
@@ -21,7 +22,7 @@ export default {
   },
   data() {
     return {
-      backgroundImage: "http://localhost:5757/images/background/background.jpg",
+      backgroundImage: global.background,
       intro: '',
       showIntro: false
     }
@@ -30,7 +31,8 @@ export default {
     initIntro() {
       getIntro().then(res => {
         // 移除富文本中的图片
-        this.intro = res.data.text.replace(/(<img).*(">)/ig, '');
+        this.intro = res.data.text.replace(/(<img).+?(">)/ig, '');
+        this.intro = res.data.text;
         if(res.data.image.length > 0) {
           this.backgroundImage = res.data.image;
         }

@@ -5,3 +5,6 @@ const prefix = '/api';
 
 export const getBanners = () => { return request.get(`${host}${prefix}/bannerlist`) };
 export const getIntro = () => { return request.get(`${host}${prefix}/intro`) };
+export const getCategorys = () => { return request.get(`${host}${prefix}/categorys`) };
+export const getProducts = params => { return request.get(`${host}${prefix}/products`, params) };
+export const getProductDetail = id => { return request.get(`${host}${prefix}/products?id=${id}`) };

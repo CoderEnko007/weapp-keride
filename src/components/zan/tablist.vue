@@ -31,5 +31,16 @@
 </script>
 
 <style scoped>
-
+.zan-tab__title {
+  height: 80rpx;
+  max-width: 280rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.zan-tab__item--selected .zan-tab__title{
+  font-weight: bold;
+  color:black;
+  border-bottom:2px solid black;
+}
 </style>

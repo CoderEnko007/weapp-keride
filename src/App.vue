@@ -12,6 +12,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("~mpvue-wxparse/src/wxParse.css");
 @import "../static/style/zanui.wxss";
 @import "../static/style/global";
 * {
@@ -40,9 +41,10 @@ export default {
 .header {
   position: relative;
   width: 100%;
+  height: 275rpx;
   img {
     width: 100%;
-    height: 250rpx;
+    height: 100%;
   }
   .hTitle {
     position: absolute;
@@ -59,5 +61,11 @@ export default {
     letter-spacing: 5px;
     text-align: center;
   }
+}
+.text-footer {
+  color: #aaa;
+  text-align: center;
+  font-size: 14px;
+  margin: 15px auto;
 }
 </style>

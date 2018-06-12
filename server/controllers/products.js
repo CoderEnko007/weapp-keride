@@ -58,12 +58,15 @@ async function get(ctx) {
   console.log(ctx.request.query)
   if (id) {
     // 获取某件商品详情
-    let product = await mysql('products').select('*').where('id', id).first()
-    console.log(product)
+    let product = await mysql('products').select('*')
+      .where('id', id)
+      .limit(pageSize)
+      .first();
     ctx.state.data = {
       name: product.name,
       image: product.image,
       description : product.description.split('\n'),
+      create_time: product.create_time
     }
   } else {
     let list = [];
@@ -71,15 +74,16 @@ async function get(ctx) {
       // 获取某类商品列表
       list = await mysql('products').select('*')
         .where('category_id', category_id)
+        .orderBy('create_time', 'desc')
         .limit(pageSize)
         .offset(Number(page) * pageSize);
     } else {
       // 获取所有商品列表
       list = await mysql('products').select('*')
+        .orderBy('create_time', 'desc')
         .limit(pageSize)
         .offset(Number(page) * pageSize);
     }
-    console.log(list)
     ctx.state.data = list;
   }
 }

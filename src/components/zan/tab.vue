@@ -5,7 +5,6 @@
         class="zan-tab__bd zan-tab__bd--scroll"
         :class="{ 'zan-tab__bd--fixed' : fixed }"
         scroll-x="true"
-        :style="'height' + mao +  height + 'px auto'"
       >
         <ZanTabList v-bind="{ list , selectedId, componentId }" @change="_change"/>
       </scroll-view>
@@ -51,5 +50,7 @@
 </script>
 
 <style scoped>
-
+scroll-view {
+  border: none;
+}
 </style>

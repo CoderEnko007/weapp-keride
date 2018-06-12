@@ -6,6 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '产品中心'
+    navigationBarTitleText: '产品中心',
+    enablePullDownRefresh: true
   }
 }
