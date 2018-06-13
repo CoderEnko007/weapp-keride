@@ -31,6 +31,7 @@ export default {
   .sub {
     font-size: 12px;
     margin-top: 10px;
+    vertical-align: middle;
     .time {
       color: #ccc;
     }
@@ -40,23 +41,25 @@ export default {
       font-size: 14px;
       padding: 0;
       border-radius:0;
+      height: 20px;
       line-height: 20px;
       background-color: transparent;
-      vertical-align: middle;
-      color: red;
+      /*vertical-align: middle;*/
+      /*color: red;*/
+      font-weight: bold;
     }
     .share::after {
       border: none;
     }
-    .share::before {
-      display: inline-block;
-      content: '';
-      background: url('../../static/img/share.png') no-repeat center;
-      background-size: 16px;
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
-    }
+    /*.share::before {*/
+      /*display: inline-block;*/
+      /*content: '';*/
+      /*background: url('../../static/img/share.png') no-repeat center;*/
+      /*background-size: 16px;*/
+      /*width: 16px;*/
+      /*height: 16px;*/
+      /*margin-right: 5px;*/
+    /*}*/
   }
 }
 

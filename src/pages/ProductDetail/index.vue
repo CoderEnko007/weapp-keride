@@ -48,9 +48,8 @@ export default {
       // 来自页面内转发按钮
       console.log(res.target)
     }
-    console.log(this.shareUrl)
     return {
-      title: '自定义转发标题',
+      title: '产品信息',
       path: `/pages/ProductDetail/main?id=${this.product_id}`
     }
   }

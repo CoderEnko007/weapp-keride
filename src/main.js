@@ -17,7 +17,7 @@ export default {
       navigationBarBackgroundColor: '#206994',
       navigationBarTitleText: '客瑞德机械零部件有限公司',
       navigationBarTextStyle: 'white',
-      backgroundColor: '#ccc',
+      backgroundColor: '#206994',
     },
     tabBar: {
       selectedColor: "#206994",

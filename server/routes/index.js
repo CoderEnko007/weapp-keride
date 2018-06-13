@@ -52,6 +52,9 @@ router.get('/products', controllers.products.get)
 router.post('/products', controllers.products.post)
 router.patch('/products', controllers.products.patch)
 router.delete('/products/:id', controllers.products.del)
-// router.get('/news', controllers.news.get)
-// router.post('/news', controllers.news.post)
+
+router.get('/news', controllers.news.get)
+router.post('/news', controllers.news.post)
+router.patch('/news', controllers.news.patch)
+router.delete('/news/:id', controllers.news.del)
 module.exports = router

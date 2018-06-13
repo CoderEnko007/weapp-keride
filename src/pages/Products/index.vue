@@ -47,7 +47,9 @@
         this.getProductsList(true, selectedId);
       },
       handleCardClick(id) {
-        console.log(id)
+        wx.navigateTo({
+          url: `/pages/ProductDetail/main?id=${id}`
+        })
       },
       initCategoryTabbar() {
         getCategorys().then(res => {

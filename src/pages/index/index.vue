@@ -12,33 +12,42 @@
     <div class="about">
       <div class="title">关于我们</div>
       <p class="text zan-ellipsis--l3">{{intro}}</p>
-      <button class="more" @click="handleMoreClick">了解更多</button>
+      <button class="more" @click="moreIntro">了解更多</button>
     </div>
   </div>
-  <div class="products">
+  <div class="card-block">
     <div class="title">产品列表</div>
     <CardList :list="productsList" @cardClick="handleCardClick"></CardList>
-    <button @click="handleProductsClick">查看更多</button>
+    <button @click="moreProducts">查看更多</button>
+  </div>
+  <div class="card-block">
+    <div class="title">新闻动态</div>
+    <CardBoard :list="news" @cardClick="handleNewsClick"></CardBoard>
+    <button @click="moreNews">查看更多</button>
   </div>
 </div>
 </template>
 
 <script>
-import global from '../../utils/global'
-import {getBanners, getIntro, getProducts} from "../../utils/api";
+import index from '../../utils/index';
+import global from '../../utils/global';
+import {getBanners, getIntro, getProducts, getNews} from "../../utils/api";
 import Swiper from '@/components/Swiper';
 import CardList from '@/components/CardList';
+import CardBoard from '@/components/CardBoard';
 
 export default {
   components: {
     Swiper,
-    CardList
+    CardList,
+    CardBoard
   },
   data () {
     return {
       banners: [],
       intro: [],
       productsList: [],
+      news: [],
       navTab: [
         {icon: '/static/img/company.png', text: '公司简介', url: '/pages/Introduction/main', isTab: false},
         {icon: '/static/img/product1.png', text: '产品中心', url: '/pages/Products/main', isTab: true},
@@ -69,7 +78,7 @@ export default {
     },
     initProducts() {
       getProducts().then(res => {
-        let list = res.data.map(v => {
+        this.productsList = res.data.map(v => {
           let item = {};
           item.id = v.id;
           item.name = v.name;
@@ -81,8 +90,28 @@ export default {
             }
           }
           return item
-        });
-        this.productsList = list;
+        }).slice(0, 4);
+      })
+    },
+    initNews() {
+      getNews().then(res => {
+        this.news = res.data.map(v => {
+          let item = {};
+          item.id = v.id;
+          item.title = v.title;
+          item.desc = v.description.replace(/<[^>]*>|/g,"");
+          let date = new Date(v.create_time);
+          item.create_time = index.formatTime(date);
+          item.image = global.defaultImage;
+          if (v.image !== undefined) {
+            v.image = JSON.parse(v.image);
+            if (v.image.length > 0) {
+              item.image = v.image[0]
+            }
+          }
+          return item
+        }).slice(0, 3);
+        console.log(this.news)
       })
     },
     swiperClick(itemId) {
@@ -99,20 +128,29 @@ export default {
         })
       }
     },
-    handleMoreClick() {
+    moreIntro() {
       wx.navigateTo({
         url: '/pages/Introduction/main'
       })
     },
     handleCardClick(id) {
-      console.log(id)
       wx.navigateTo({
         url: `/pages/ProductDetail/main?id=${id}`
       })
     },
-    handleProductsClick() {
+    moreProducts() {
       wx.switchTab({
         url: '/pages/Products/main'
+      })
+    },
+    handleNewsClick(id) {
+      wx.navigateTo({
+        url: `/pages/NewsDetail/main?id=${id}`
+      })
+    },
+    moreNews() {
+      wx.navigateTo({
+        url: '/pages/News/main'
       })
     }
   },
@@ -120,6 +158,13 @@ export default {
     this.initBanners();
     this.initIntro();
     this.initProducts();
+    this.initNews();
+  },
+  onPullDownRefresh() {
+    this.initBanners();
+    this.initIntro();
+    this.initProducts();
+    this.initNews();
   }
 }
 </script>
@@ -141,7 +186,7 @@ export default {
 }
 .intro {
   position: relative;
-  font-size: 14px;
+  font-size: 12px;
   color: white;
   width: 100%;
   height: 350rpx;
@@ -162,7 +207,6 @@ export default {
     overflow: hidden;
     .text {
       margin-top: 15px;
-      text-indent: 2em;
     }
     .more {
       float: right;
@@ -173,18 +217,19 @@ export default {
       margin-top: 10px;
       margin-right: 15px;
       padding: 0;
-      font-size: 14px;
+      font-size: 12px;
       border: 1px solid white;
       border-radius: 20px;
       background-color: transparent;
     }
   }
 }
-.products {
+.card-block {
   position: relative;
-  margin: 20px 15px 10px;
+  padding: 10px 15px 5px;
   .title {
     color: black;
+    margin-bottom: 15px;
   }
   .title::after {
     border-bottom: 3px solid #CCC;
@@ -193,11 +238,17 @@ export default {
     width: 100px;
     height: 30px;
     line-height: 30px;
-    margin: 0 auto;
+    margin: 5px auto;
     padding: 0;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 20px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
   }
+}
+.gray-background {
+  background-color: #EEE;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="card-list">
+  <div class="card-list">
     <div class="card" v-for="(item, index) in list" :key="index" @click="handleClick(item)">
       <img :src="item.image" mode="aspectFit">
       <p>{{item.name}}</p>
@@ -33,7 +33,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-#card-list {
+.card-list {
   display: flex;
   flex-wrap: wrap;
   /*justify-content: space-around;*/

@@ -2,7 +2,7 @@ const {mysql} = require('../qcloud');
 
 async function post(ctx) {
   const {name} = ctx.request.body;
-  const findRes = await mysql('category').select().where('name',name);
+  let findRes = await mysql('category').select().where('name',name);
   if (findRes.length) {
     ctx.state = {
       code: -1,
@@ -23,7 +23,7 @@ async function post(ctx) {
 }
 
 async function get(ctx) {
-  const categorys = await mysql('category').select('*');
+  let categorys = await mysql('category').select('*');
   console.log(categorys);
   ctx.state.data = {
     list: categorys.map(v => {
