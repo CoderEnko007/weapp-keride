@@ -2,7 +2,7 @@ const {mysql} = require('../qcloud');
 
 async function post(ctx) {
   const {name, image, description, category_id} = ctx.request.body;
-  const findRes = await mysql('products').select().where('name',name);
+  const findRes = await mysql('products').select('*').where('name',name);
   if (findRes.length) {
     ctx.state = {
       code: -1,
@@ -60,7 +60,6 @@ async function get(ctx) {
     // 获取某件商品详情
     let product = await mysql('products').select('*')
       .where('id', id)
-      .limit(pageSize)
       .first();
     ctx.state.data = {
       name: product.name,

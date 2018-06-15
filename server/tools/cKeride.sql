@@ -29,3 +29,14 @@ create table category (
   name varchar(100) not null,
   create_time timestamp default current_timestamp
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create table contact (
+  id int not null auto_increment primary key,
+  latitude float not null ,
+  longitude float not null ,
+  position varchar(200) not null,
+  phone varchar(20),
+  email varchar(20),
+  fax varchar(20),
+  zipcode varchar(10)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

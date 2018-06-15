@@ -4,7 +4,7 @@
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">新闻动态</div>
     <div class="newsList">
-      <CardBoard :list="newsList"></CardBoard>
+      <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
       <p class="text-footer" v-if="!more">没有更多数据</p>
     </div>
   </div>
@@ -53,7 +53,7 @@
             }
             return item
           });
-          if (list.length<this.pageSize && this.page > 0) {
+          if (list.length<this.pageSize) {
             this.more = false;
           }
           if (init) {
@@ -74,6 +74,11 @@
           wx.stopPullDownRefresh();
           wx.hideNavigationBarLoading()
         })
+      },
+      handleCardClick(id) {
+        wx.navigateTo({
+          url: `/pages/NewsDetail/main?id=${id}`
+        })
       }
     },
     mounted() {
@@ -83,6 +88,9 @@
       this.getNewsList(true)
     },
     onReachBottom() {
+      if (!this.more) {
+        return false
+      }
       this.page += 1;
       this.getNewsList(false)
     }

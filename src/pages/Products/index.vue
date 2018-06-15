@@ -95,7 +95,7 @@
               }
               return item
             });
-            if (list.length<this.pageSize && this.page > 0) {
+            if (list.length<this.pageSize) {
               this.more = false;
             }
             if (init) {

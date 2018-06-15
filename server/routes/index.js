@@ -57,4 +57,10 @@ router.get('/news', controllers.news.get)
 router.post('/news', controllers.news.post)
 router.patch('/news', controllers.news.patch)
 router.delete('/news/:id', controllers.news.del)
+
+router.get('/contacts', controllers.contacts.get)
+router.post('/contacts', controllers.contacts.post)
+router.patch('/contacts', controllers.contacts.patch)
+router.delete('/contacts/:id', controllers.contacts.del)
+
 module.exports = router
