@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="isShow">
+  <div class="container" v-show="show">
     <TitleHeader :name="news_title" :time="create_time"></TitleHeader>
     <div class="body">
       <wxParse :content="description"/>
@@ -21,7 +21,7 @@
     },
     data() {
       return {
-        isShow: true,
+        show: false,
         news_id: 0,
         news_title: '',
         create_time: '',
@@ -34,7 +34,7 @@
           this.news_title = res.data.title;
           console.log(res.data.description)
           this.description = res.data.description;
-          this.isShow = true;
+          this.show = true;
           let date = new Date(res.data.create_time);
           this.create_time = index.formatTime(date);
           console.log(res.data)

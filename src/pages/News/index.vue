@@ -1,12 +1,12 @@
 <template>
-<div id="news">
+<div id="news" v-show="show">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">新闻动态</div>
   </div>
   <div class="newsList">
     <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
-    <p class="text-footer" v-if="!more">没有更多数据</p>
+    <p class="text-footer" v-show="!more">没有更多数据</p>
   </div>
   <floatBtnGroup></floatBtnGroup>
 </div>
@@ -30,6 +30,7 @@
         pageSize: 6,
         newsList: [],
         more: true,
+        show: false,
       }
     },
     methods: {
@@ -40,6 +41,7 @@
         }
         getNews({page: this.page}).then(res => {
           console.log(res);
+          this.show = true;
           let list = res.data.map(v => {
             let item = {};
             item.id = v.id;
@@ -96,6 +98,12 @@
       }
       this.page += 1;
       this.getNewsList(false)
+    },
+    onShareAppMessage(res) {
+      return {
+        title: '新闻动态',
+        path: `/pages/News/main`
+      }
     }
   }
 </script>

@@ -48,6 +48,12 @@ export default {
       border-radius: 15px;
       box-shadow: 5px 5px 10px #ccc;
     }
+    img:active {
+      position: relative;
+      box-shadow: none;
+      top: 5px;
+      left: 5px;
+    }
     p {
       width: 250rpx;
       overflow: hidden;

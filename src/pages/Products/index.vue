@@ -1,5 +1,5 @@
 <template>
-<div id="productList">
+<div id="productList" v-show="showList">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">产品中心</div>
@@ -26,6 +26,7 @@
     },
     data() {
       return {
+        loadStep: 0,
         backgroundImage: global.background,
         category: {
           list: [],
@@ -37,6 +38,11 @@
         pageSize: 6,
         more: true,
         productsList: []
+      }
+    },
+    computed: {
+      showList() {
+        return this.loadStep >= 2;
       }
     },
     methods: {
@@ -57,6 +63,7 @@
             let tab = {};
             tab.id = v.id;
             tab.title = v.name;
+            this.loadStep += 1;
             return tab
           });
           this.category.list.unshift({
@@ -93,6 +100,7 @@
                   item.image = v.image[0]
                 }
               }
+              this.loadStep += 1;
               return item
             });
             if (list.length<this.pageSize) {
@@ -108,6 +116,7 @@
             wx.hideNavigationBarLoading()
           }).catch(error => {
             console.log(error);
+            this.loadStep += 1;
             wx.showToast({
               title: '加载失败',
               icon: 'none',
@@ -139,6 +148,12 @@
         this.getProductsList(false, this.category.selectedId)
       } else {
         this.getProductsList(false)
+      }
+    },
+    onShareAppMessage(res) {
+      return {
+        title: '产品中心',
+        path: `/pages/Products/main`
       }
     }
   }

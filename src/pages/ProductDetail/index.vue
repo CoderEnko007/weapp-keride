@@ -1,8 +1,8 @@
 <template>
-  <div class="container" v-if="isShow">
+  <div class="container" v-show="show">
     <TitleHeader :name="product_name" :time="create_time"></TitleHeader>
     <div class="body">
-      <wxParse :content="description"/>
+      <wxParse :content="description" noData=""/>
     </div>
     <floatBtnGroup></floatBtnGroup>
   </div>
@@ -26,7 +26,7 @@ export default {
       product_name: '',
       description: '',
       create_time: '',
-      isShow: false
+      show: false
     }
   },
   methods: {
@@ -34,17 +34,15 @@ export default {
       getProductDetail(this.product_id).then(res => {
         this.product_name = res.data.name;
         this.description = res.data.description[0];
-        this.isShow = true;
+        this.show = true;
         let date = new Date(res.data.create_time);
         this.create_time = index.formatTime(date);
-        console.log(res.data)
       })
     }
   },
   mounted() {
     this.product_id = this.$root.$mp.query.id;
     this.getDetail();
-    console.log(this.product_id)
   },
   onShareAppMessage(res) {
     if (res.from === 'button') {
@@ -55,7 +53,7 @@ export default {
       title: '产品信息',
       path: `/pages/ProductDetail/main?id=${this.product_id}`
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

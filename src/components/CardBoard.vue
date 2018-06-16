@@ -57,4 +57,7 @@ export default {
       }
     }
   }
+  .zan-card:active {
+    background: #CCC;
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" v-show="show">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">联系我们</div>
@@ -29,7 +29,7 @@
         <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
     </div>
-    <button open-type="contact" class="zan-btn--primary">联系客服</button>
+    <button open-type="contact" class="contact zan-btn--primary">联系客服</button>
   </div>
   <floatBtnGroup></floatBtnGroup>
 </div>
@@ -45,6 +45,7 @@
     },
     data() {
       return {
+        show: false,
         backgroundImage: global.background,
         contacts: [],
         markers: []
@@ -54,6 +55,7 @@
       getContactList() {
         getContacts().then(res => {
           console.log(res);
+          this.show = true;
           this.contacts = res.data;
           let data = res.data;
           for (let i in data) {
@@ -108,6 +110,12 @@
     },
     mounted() {
       this.getContactList();
+    },
+    onShareAppMessage(res) {
+      return {
+        title: '联系我们',
+        path: `/pages/Contact/main`
+      }
     }
   }
 </script>
@@ -146,6 +154,9 @@
         text-align: right;
       }
     }
+  }
+  .contact {
+    margin-top: 10px;
   }
 }
 </style>

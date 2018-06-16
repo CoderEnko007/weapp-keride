@@ -1,10 +1,10 @@
 <template>
-<div id="intro">
-  <div class="header" v-show="showIntro">
+<div id="intro" v-show="show">
+  <div class="header" >
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">关于我们</div>
   </div>
-  <div class="body" v-show="showIntro">
+  <div class="body">
     <div class="text">
       <wxParse :content="intro" />
     </div>
@@ -27,7 +27,7 @@ export default {
     return {
       backgroundImage: global.background,
       intro: '',
-      showIntro: false
+      show: false
     }
   },
   methods: {
@@ -41,7 +41,7 @@ export default {
         }
         // 加载完数据后再显示
         this.$nextTick(() => {
-          this.showIntro = true
+          this.show = true
         });
         console.log(this.intro, this.backgroundImage)
       })
@@ -49,6 +49,12 @@ export default {
   },
   mounted() {
     this.initIntro();
+  },
+  onShareAppMessage(res) {
+    return {
+      title: '客瑞德机械零部件有限公司',
+      path: `/pages/Introduction/main`
+    }
   }
 }
 </script>

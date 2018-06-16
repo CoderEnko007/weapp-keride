@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" v-show="showPage">
   <Swiper :banners="banners" @swiperClick="swiperClick"></Swiper>
   <div class="navTab">
     <div class="navItem" v-for="(item, index) in navTab" :key="index" @click="navTabClick(item)">
@@ -18,12 +18,12 @@
   <div class="card-block">
     <div class="title">产品列表</div>
     <CardList :list="productsList" @cardClick="handleCardClick"></CardList>
-    <button @click="moreProducts">查看更多</button>
+    <button class="more" @click="moreProducts">查看更多</button>
   </div>
   <div class="card-block">
     <div class="title">新闻动态</div>
     <CardBoard :list="news" @cardClick="handleNewsClick"></CardBoard>
-    <button @click="moreNews">查看更多</button>
+    <button class="more" @click="moreNews">查看更多</button>
   </div>
 </div>
 </template>
@@ -56,7 +56,13 @@ export default {
         {icon: '/static/img/contact1.png', text: '联系我们', url: '/pages/Contact/main', isTab: true},
       ],
       backgroundImage: global.background,
-      refreshFlag: 0
+      refreshFlag: 0,
+
+    }
+  },
+  computed: {
+    showPage() {
+      return this.refreshFlag >= 4;
     }
   },
   methods: {
@@ -181,6 +187,12 @@ export default {
     this.initIntro();
     this.initProducts();
     this.initNews();
+  },
+  onShareAppMessage(res) {
+    return {
+      title: '客瑞德机械零部件有限公司',
+      path: `/pages/Index/main`
+    }
   }
 }
 </script>
@@ -229,8 +241,8 @@ export default {
       float: right;
       color: white;
       width: 100px;
-      height: 30px;
-      line-height: 30px;
+      /*height: 30px;*/
+      /*line-height: 30px;*/
       margin-top: 10px;
       margin-right: 15px;
       padding: 0;
@@ -253,8 +265,8 @@ export default {
   }
   button {
     width: 100px;
-    height: 30px;
-    line-height: 30px;
+    /*height: 30px;*/
+    /*line-height: 30px;*/
     margin: 5px auto;
     padding: 0;
     font-size: 12px;
@@ -267,5 +279,7 @@ export default {
 .gray-background {
   background-color: #EEE;
 }
+.more {
 
+}
 </style>

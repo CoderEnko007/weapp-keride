@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" v-show="show">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">联系我们</div>
@@ -23,6 +23,7 @@
     },
     data() {
       return {
+        show: false,
         backgroundImage: global.background,
         list: []
       }
@@ -30,6 +31,7 @@
     methods: {
       getPartnerList() {
         getPartner().then(res => {
+          this.show = true;
           this.list = res.data;
         })
       },
@@ -41,6 +43,12 @@
     },
     mounted() {
       this.getPartnerList();
+    },
+    onShareAppMessage(res) {
+      return {
+        title: '合作伙伴',
+        path: `/pages/Partner/main`
+      }
     }
   }
 </script>
