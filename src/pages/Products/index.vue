@@ -22,7 +22,7 @@
   export default {
     components: {
       ZanTab,
-      CardList
+      CardList,
     },
     data() {
       return {

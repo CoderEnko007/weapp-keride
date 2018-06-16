@@ -9,16 +9,19 @@
       <wxParse :content="intro" />
     </div>
   </div>
+  <floatBtnGroup></floatBtnGroup>
 </div>
 </template>
 <script>
 import global from '../../utils/global'
 import {getIntro} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
+import floatBtnGroup from '@/components/floatBtnGroup';
 
 export default {
   components: {
-    wxParse
+    wxParse,
+    floatBtnGroup
   },
   data() {
     return {

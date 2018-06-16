@@ -29,14 +29,20 @@
         <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
     </div>
+    <button open-type="contact" class="zan-btn--primary">联系客服</button>
   </div>
+  <floatBtnGroup></floatBtnGroup>
 </div>
 </template>
 <script>
   import {getContacts} from "../../utils/api";
   import global from '../../utils/global';
+  import floatBtnGroup from '@/components/floatBtnGroup';
 
   export default {
+    components: {
+      floatBtnGroup
+    },
     data() {
       return {
         backgroundImage: global.background,

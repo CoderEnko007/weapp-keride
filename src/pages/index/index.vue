@@ -40,7 +40,7 @@ export default {
   components: {
     Swiper,
     CardList,
-    CardBoard
+    CardBoard,
   },
   data () {
     return {

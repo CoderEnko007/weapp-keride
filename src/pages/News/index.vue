@@ -8,6 +8,7 @@
     <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
     <p class="text-footer" v-if="!more">没有更多数据</p>
   </div>
+  <floatBtnGroup></floatBtnGroup>
 </div>
 </template>
 <script>
@@ -15,10 +16,12 @@
   import {getNews} from "../../utils/api";
   import index from '../../utils/index';
   import CardBoard from '../../components/CardBoard'
+  import floatBtnGroup from '@/components/floatBtnGroup';
 
   export default {
     components: {
-      CardBoard
+      CardBoard,
+      floatBtnGroup
     },
     data() {
       return {

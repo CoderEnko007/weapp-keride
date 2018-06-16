@@ -9,13 +9,18 @@
       <img :src="item.image" mode="widthFix">
     </div>
   </div>
+  <floatBtnGroup></floatBtnGroup>
 </div>
 </template>
 <script>
   import global from '../../utils/global';
   import {getPartner} from "../../utils/api";
+  import floatBtnGroup from '@/components/floatBtnGroup';
 
   export default {
+    components: {
+      floatBtnGroup
+    },
     data() {
       return {
         backgroundImage: global.background,

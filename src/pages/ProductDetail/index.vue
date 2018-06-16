@@ -4,6 +4,7 @@
     <div class="body">
       <wxParse :content="description"/>
     </div>
+    <floatBtnGroup></floatBtnGroup>
   </div>
 </template>
 <script>
@@ -11,11 +12,13 @@ import index from '../../utils/index';
 import {getProductDetail} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
 import TitleHeader from '../../components/TitleHeader';
+import floatBtnGroup from '@/components/floatBtnGroup';
 
 export default {
   components: {
     wxParse,
-    TitleHeader
+    TitleHeader,
+    floatBtnGroup
   },
   data() {
     return {
