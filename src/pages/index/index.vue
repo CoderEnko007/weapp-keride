@@ -55,24 +55,31 @@ export default {
         {icon: '/static/img/news.png', text: '新闻动态', url: '/pages/News/main', isTab: false},
         {icon: '/static/img/contact1.png', text: '联系我们', url: '/pages/Contact/main', isTab: true},
       ],
-      backgroundImage: global.background
+      backgroundImage: global.background,
+      refreshFlag: 0
     }
   },
   methods: {
     initBanners() {
       getBanners().then(res => {
-          this.banners = res.data.list
+          this.banners = res.data.list;
+          this.handleStopPullDown();
         }).catch(err => {
+          this.handleStopPullDown();
           console.log(err)
       })
     },
     initIntro() {
       getIntro().then(res => {
         // 去除html标签，截取正文
-        this.intro = res.data.text.replace(/<[^>]*>|/g,"");
+        this.intro = res.data.text.replace(/<[^>]*>|/g,""); //去除HTML tag
+        this.intro = this.intro.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+        this.intro = this.intro.replace(/&nbsp;/ig,'');//去掉&nbsp;
+        this.intro = this.intro.replace(/\s/g,''); //将空格去掉
         if(res.data.image.length > 0) {
           this.backgroundImage = res.data.image;
         }
+        this.handleStopPullDown();
         console.log(this.intro, this.backgroundImage)
       })
     },
@@ -91,6 +98,7 @@ export default {
           }
           return item
         }).slice(0, 4);
+        this.handleStopPullDown();
       })
     },
     initNews() {
@@ -111,6 +119,7 @@ export default {
           }
           return item
         }).slice(0, 3);
+        this.handleStopPullDown();
         console.log(this.news)
       })
     },
@@ -152,6 +161,13 @@ export default {
       wx.navigateTo({
         url: '/pages/News/main'
       })
+    },
+    handleStopPullDown() {
+      this.refreshFlag += 1;
+      if (this.refreshFlag >= 4) {
+        wx.stopPullDownRefresh();
+        wx.hideNavigationBarLoading()
+      }
     }
   },
   mounted () {
@@ -207,6 +223,7 @@ export default {
     overflow: hidden;
     .text {
       margin-top: 15px;
+      text-indent:2em;
     }
     .more {
       float: right;

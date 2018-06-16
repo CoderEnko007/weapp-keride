@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-  props:['name', 'time', 'share'],
+  props:['name', 'time'],
   data() {
     return {
 
@@ -24,9 +24,6 @@ export default {
   border-bottom: 1px solid #ccc;
   .name {
     font-size: 24px;
-  }
-  .name::before {
-    background-image: url('../../static/img/share.png');
   }
   .sub {
     font-size: 12px;
@@ -44,22 +41,11 @@ export default {
       height: 20px;
       line-height: 20px;
       background-color: transparent;
-      /*vertical-align: middle;*/
-      /*color: red;*/
       font-weight: bold;
     }
     .share::after {
       border: none;
     }
-    /*.share::before {*/
-      /*display: inline-block;*/
-      /*content: '';*/
-      /*background: url('../../static/img/share.png') no-repeat center;*/
-      /*background-size: 16px;*/
-      /*width: 16px;*/
-      /*height: 16px;*/
-      /*margin-right: 5px;*/
-    /*}*/
   }
 }
 

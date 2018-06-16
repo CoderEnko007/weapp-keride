@@ -12,7 +12,6 @@ async function post(ctx) {
     };
     return
   }
-
   try {
     let product_id = await mysql('products').insert({
       name, image, description, category_id
@@ -26,6 +25,11 @@ async function post(ctx) {
       ctx.state = {
         code: -1,
         error: '内容过长'
+      }
+    } else {
+      ctx.state = {
+        code: -1,
+        error: e.sqlMessage
       }
     }
   }

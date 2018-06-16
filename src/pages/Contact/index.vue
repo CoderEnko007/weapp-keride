@@ -1,34 +1,36 @@
 <template>
+<div class="container">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">联系我们</div>
-    <div class="contactList">
-      <div class="contact-item" v-for="(item, index) in contacts" :key="index">
-        <h2 class="name">{{item.name}}</h2>
-        <map id="map" :longitude="item.longitude"  :latitude="item.latitude" :markers="markers[index]"></map>
-        <div class="cell">
-          <span class="label">地址</span>
-          <span class="content" @click="openMap(item)">{{item.address}}</span>
-        </div>
-        <div class="cell">
-          <span class="label">邮编</span>
-          <span class="content" @click="copyText(item.zipcode)">{{item.zipcode}}</span>
-        </div>
-        <div class="cell">
-          <span class="label">电话</span>
-          <span class="content" @click="makePhoneCall(item.phone)">{{item.phone}}</span>
-        </div>
-        <div class="cell">
-          <span class="label">传真</span>
-          <span class="content" @click="copyText(item.fax)">{{item.fax}}</span>
-        </div>
-        <div class="cell">
-          <span class="label">邮箱</span>
-          <span class="content" @click="copyText(item.email)">{{item.email}}</span>
-        </div>
+  </div>
+  <div class="contactList">
+    <div class="contact-item" v-for="(item, index) in contacts" :key="index">
+      <h2 class="name">{{item.name}}</h2>
+      <map id="map" :longitude="item.longitude"  :latitude="item.latitude" :markers="markers[index]"></map>
+      <div class="cell">
+        <span class="label">地址</span>
+        <span class="content" @click="openMap(item)">{{item.address}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">邮编</span>
+        <span class="content" @click="copyText(item.zipcode)">{{item.zipcode}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">电话</span>
+        <span class="content" @click="makePhoneCall(item.phone)">{{item.phone}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">传真</span>
+        <span class="content" @click="copyText(item.fax)">{{item.fax}}</span>
+      </div>
+      <div class="cell">
+        <span class="label">邮箱</span>
+        <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
   import {getContacts} from "../../utils/api";

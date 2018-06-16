@@ -3,10 +3,10 @@
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">新闻动态</div>
-    <div class="newsList">
-      <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
-      <p class="text-footer" v-if="!more">没有更多数据</p>
-    </div>
+  </div>
+  <div class="newsList">
+    <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
+    <p class="text-footer" v-if="!more">没有更多数据</p>
   </div>
 </div>
 </template>

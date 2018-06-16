@@ -31,7 +31,7 @@ export default {
     initIntro() {
       getIntro().then(res => {
         // 移除富文本中的图片
-        this.intro = res.data.text.replace(/(<img).+?(">)/ig, '');
+        // this.intro = res.data.text.replace(/(<img).+?(">)/ig, '');
         this.intro = res.data.text;
         if(res.data.image.length > 0) {
           this.backgroundImage = res.data.image;

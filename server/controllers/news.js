@@ -12,10 +12,16 @@ async function post(ctx) {
       msg: 'success'
     }
   } catch (e) {
+    console.log(e)
     if (e.code === 'ER_DATA_TOO_LONG') {
       ctx.state = {
         code: -1,
         error: '内容过长'
+      }
+    } else {
+      ctx.state = {
+        code: -1,
+        error: e.sqlMessage
       }
     }
   }

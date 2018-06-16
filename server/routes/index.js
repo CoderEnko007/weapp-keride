@@ -63,4 +63,8 @@ router.post('/contacts', controllers.contacts.post)
 router.patch('/contacts', controllers.contacts.patch)
 router.delete('/contacts/:id', controllers.contacts.del)
 
+router.get('/partner', controllers.partner.get)
+router.post('/partner', controllers.partner.upload.single('file'), controllers.partner.post)
+router.delete('/partner/:id', controllers.partner.del)
+
 module.exports = router
