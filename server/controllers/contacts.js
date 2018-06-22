@@ -39,7 +39,7 @@ async function patch(ctx) {
 }
 
 async function get(ctx) {
-  const {id} = ctx.request.query;
+  const {id} = ctx.params;
   let list = [];
   if (id) {
     list = await mysql("contact").select('*').where('id', id).first();

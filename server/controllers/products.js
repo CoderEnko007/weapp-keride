@@ -1,7 +1,7 @@
 const {mysql} = require('../qcloud');
 
 async function post(ctx) {
-  const {name, image, description, category_id} = ctx.request.body;
+  const {name, image, desc, category_id} = ctx.request.body;
   const findRes = await mysql('products').select('*').where('name',name);
   if (findRes.length) {
     ctx.state = {
@@ -14,7 +14,7 @@ async function post(ctx) {
   }
   try {
     let product_id = await mysql('products').insert({
-      name, image, description, category_id
+      name, image, desc, category_id
     });
     ctx.state.data = {
       id: product_id,
@@ -36,10 +36,10 @@ async function post(ctx) {
 }
 
 async function patch(ctx) {
-  const {id, name, image, description, category_id} = ctx.request.body;
+  const {id, name, image, desc, category_id} = ctx.request.body;
   try {
     await mysql('products').select('*').where('id', id).first().update({
-      name, image, description, category_id
+      name, image, desc, category_id
     });
     ctx.state.data = Object.assign({}, {
       name: name,
@@ -56,39 +56,48 @@ async function patch(ctx) {
   }
 }
 
+async function getDetail(ctx) {
+  const {id} = ctx.params;
+  let product = await mysql('products').select('*')
+    .where('id', id)
+    .first();
+  let category = {};
+  let click_nums = product.click_nums;
+  if (product) {
+    category = await mysql('category').select('*').where('id', product.category_id).first();
+    await mysql('products').select('*').where('id', id).update({
+      click_nums: click_nums+1
+    })
+  }
+  ctx.state.data = Object.assign({}, product, {
+    category: {
+      id: category.id,
+      name: category.name
+    }
+  })
+}
+
 async function get(ctx) {
-  const {id, category_id, page=0} = ctx.request.query;
+  const {category_id, page=0} = ctx.request.query;
   const pageSize = 6;
   console.log(ctx.request.query)
-  if (id) {
-    // 获取某件商品详情
-    let product = await mysql('products').select('*')
-      .where('id', id)
-      .first();
-    ctx.state.data = {
-      name: product.name,
-      image: product.image,
-      description : product.description.split('\n'),
-      create_time: product.create_time
-    }
+
+  let list = [];
+  if (category_id) {
+    // 获取某类商品列表
+    list = await mysql('products').select('*')
+      .where('category_id', category_id)
+      .orderBy('create_time', 'desc')
+      .limit(pageSize)
+      .offset(Number(page) * pageSize);
   } else {
-    let list = [];
-    if (category_id) {
-      // 获取某类商品列表
-      list = await mysql('products').select('*')
-        .where('category_id', category_id)
-        .orderBy('create_time', 'desc')
-        .limit(pageSize)
-        .offset(Number(page) * pageSize);
-    } else {
-      // 获取所有商品列表
-      list = await mysql('products').select('*')
-        .orderBy('create_time', 'desc')
-        .limit(pageSize)
-        .offset(Number(page) * pageSize);
-    }
-    ctx.state.data = list;
+    // 获取所有商品列表
+    list = await mysql('products').select('*')
+      .orderBy('create_time', 'desc')
+      .limit(pageSize)
+      .offset(Number(page) * pageSize);
   }
+  ctx.state.data = list;
 }
 
 async function del(ctx) {
@@ -102,6 +111,7 @@ async function del(ctx) {
 module.exports = {
   post,
   get,
+  getDetail,
   del,
   patch
 };

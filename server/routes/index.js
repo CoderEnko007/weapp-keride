@@ -34,37 +34,41 @@ router.post('/message', controllers.message.post)
 
 router.get('/demo', controllers.demo.get)
 
-router.post('/upload', controllers.adminUpload.upload.single('file'), controllers.adminUpload.post)
-
-router.get('/bannerlist', controllers.banner.get)
+router.get('/banner', controllers.banner.get)
 router.get('/banner/:id', controllers.banner.get)
-router.post('/banner', controllers.banner.upload.single('file'), controllers.banner.post)
+router.post('/banner', controllers.banner.post)
+router.patch('/banner', controllers.banner.patch)
 router.delete('/banner/:id', controllers.banner.del)
 
 router.get('/intro', controllers.introduction.get)
 router.patch('/intro', controllers.introduction.patch)
 
 router.get('/categorys', controllers.category.get)
+router.get('/categorys/:id', controllers.category.get)
 router.post('/categorys', controllers.category.post)
+router.patch('/categorys', controllers.category.patch)
 router.delete('/categorys/:id', controllers.category.del)
 
 router.get('/products', controllers.products.get)
+router.get('/products/:id', controllers.products.getDetail)
 router.post('/products', controllers.products.post)
 router.patch('/products', controllers.products.patch)
 router.delete('/products/:id', controllers.products.del)
 
 router.get('/news', controllers.news.get)
+router.get('/news/:id', controllers.news.getDetail)
 router.post('/news', controllers.news.post)
 router.patch('/news', controllers.news.patch)
 router.delete('/news/:id', controllers.news.del)
 
 router.get('/contacts', controllers.contacts.get)
+router.get('/contacts/:id', controllers.contacts.get)
 router.post('/contacts', controllers.contacts.post)
 router.patch('/contacts', controllers.contacts.patch)
 router.delete('/contacts/:id', controllers.contacts.del)
 
 router.get('/partner', controllers.partner.get)
-router.post('/partner', controllers.partner.upload.single('file'), controllers.partner.post)
+router.post('/partner', controllers.partner.post)
 router.delete('/partner/:id', controllers.partner.del)
 
 router.get('/token', controllers.qiniu.get)

@@ -22,4 +22,4 @@ async function get(ctx) {
 
 module.exports = {
   get
-}
+};

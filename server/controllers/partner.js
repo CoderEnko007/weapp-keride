@@ -5,29 +5,14 @@ async function get(ctx) {
   ctx.state.data = list;
 }
 
-const multer = require('koa-multer');
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'asserts/images/partner')
-  },
-  filename: (req, file, cb) => {
-    // let fileFormat = (file.originalname).split(".");
-    // console.log(fileFormat)
-    cb(null,file.originalname);
-  }
-});
 async function post(ctx) {
-  let path = ctx.req.file.path;
-  let {name} = ctx.req.body;
-  path = path.substr(path.indexOf('\\')+1).replace(/\\/g,"/");
-  // path = `http://${ctx.req.headers.host}/${path}`;
+  let {image, name} = ctx.request.body;
   try {
     await mysql('partner').insert({
-      image: path,
-      name: name
+      image, name
     });
     ctx.state.data = {
-      image: path
+      image: image
     }
   } catch(e){
     ctx.state = {
@@ -53,7 +38,6 @@ async function del(ctx) {
 }
 
 module.exports = {
-  upload: multer({ storage: storage }),
   get,
   post,
   del

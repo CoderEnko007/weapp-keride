@@ -1,7 +1,7 @@
 const {mysql} = require('../qcloud');
 
 async function post(ctx) {
-  const {name} = ctx.request.body;
+  const {name, desc} = ctx.request.body;
   let findRes = await mysql('category').select().where('name',name);
   if (findRes.length) {
     ctx.state = {
@@ -12,7 +12,20 @@ async function post(ctx) {
   }
 
   let category_id = await mysql('category').insert({
-    name: name
+    name, desc
+  });
+  console.log('aaa',category_id)
+  ctx.state.data = {
+    id: category_id,
+    name: name,
+    msg: 'success'
+  }
+}
+
+async function patch(ctx) {
+  const {id, name, desc} = ctx.request.body;
+  let category_id = await mysql('category').where('id', id).first().update({
+    name, desc
   });
   console.log('aaa',category_id)
   ctx.state.data = {
@@ -23,16 +36,29 @@ async function post(ctx) {
 }
 
 async function get(ctx) {
-  let categorys = await mysql('category').select('*');
-  console.log(categorys);
-  ctx.state.data = {
-    list: categorys.map(v => {
-      return Object.assign({}, {
-        id: v.id,
-        name: v.name
+  const {id} = ctx.params;
+  if (id) {
+    let categorys = await mysql('category').select('*').where('id', id).first();
+    if (categorys) {
+      ctx.state.data = categorys
+    } else {
+      ctx.state.data = {
+        code: -1,
+        msg: '无记录'
+      }
+    }
+  } else {
+    let categorys = await mysql('category').select('*');
+    console.log(categorys);
+    ctx.state.data = {
+      list: categorys.map(v => {
+        return Object.assign({}, {
+          id: v.id,
+          name: v.name
+        })
       })
-    })
-  };
+    };
+  }
 }
 
 async function del(ctx) {
@@ -45,6 +71,7 @@ async function del(ctx) {
 
 module.exports = {
   post,
+  patch,
   get,
   del
 };
