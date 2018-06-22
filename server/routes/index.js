@@ -18,7 +18,7 @@ router.get('/user', validationMiddleware, controllers.user)
 
 // --- 图片上传 Demo --- //
 // 图片上传接口，小程序端可以直接将 url 填入 wx.uploadFile 中
-router.post('/upload1', controllers.upload)
+router.post('/upload', controllers.upload)
 
 // --- 信道服务接口 Demo --- //
 // GET  用来响应请求信道地址的
@@ -72,5 +72,9 @@ router.post('/partner', controllers.partner.post)
 router.delete('/partner/:id', controllers.partner.del)
 
 router.get('/token', controllers.qiniu.get)
+
+router.post('/adminLogin', controllers.admin.adminUser.adminLogin)
+router.post('/createAdminUser', controllers.admin.adminUser.createAdminUser)
+router.get('userinfo', controllers.admin.adminUser.getUserInfo)
 
 module.exports = router

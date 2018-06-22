@@ -4,10 +4,17 @@ const debug = require('debug')('koa-weapp-demo')
 const response = require('./middlewares/response')
 const bodyParser = require('koa-bodyparser')
 const config = require('./config')
-const cors = require('koa2-cors');
+const cors = require('koa2-cors')
+const err = require('./middlewares/error')
+const jwt = require('koa-jwt')
 
 // 解决跨域问题
 app.use(cors());
+
+//鉴权操作
+app.use(err());
+app.use(jwt({secret: config.sign}).unless({path: [/^\/api\/adminLogin/, /^\/api\/createAdminUser/]}))
+
 // 使用响应处理中间件
 app.use(response)
 

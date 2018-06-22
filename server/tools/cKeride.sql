@@ -62,3 +62,13 @@ CREATE TABLE `partner` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+create table admin_user (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(150) NOT NULL,
+  `password` varchar(150)  NOT NULL,
+  `email` varchar(254) DEFAULT NULL,
+  `is_superuser` tinyint(1) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
