@@ -12,9 +12,10 @@ async function adminLogin (ctx) {
     if (bcrypt.compareSync(data.password, user.password)) {
       // 用户token
       const userToken = {
-        name: user.name,
+        username: user.username,
         id: user.id
       }
+      console.log(userToken)
       const token = jwt.sign(userToken, config.sign, {expiresIn: '1h'})  // 签发token
       ctx.body = {
         message: '成功',

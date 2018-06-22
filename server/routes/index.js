@@ -75,6 +75,6 @@ router.get('/token', controllers.qiniu.get)
 
 router.post('/adminLogin', controllers.admin.adminUser.adminLogin)
 router.post('/createAdminUser', controllers.admin.adminUser.createAdminUser)
-router.get('userinfo', controllers.admin.adminUser.getUserInfo)
+router.get('/userinfo', controllers.admin.adminUser.getUserInfo)
 
 module.exports = router

@@ -13,7 +13,10 @@ app.use(cors());
 
 //鉴权操作
 app.use(err());
-app.use(jwt({secret: config.sign}).unless({path: [/^\/api\/adminLogin/, /^\/api\/createAdminUser/]}))
+app.use(jwt({secret: config.sign}).unless({
+  path: [/^\/api\/adminLogin/, /^\/api\/createAdminUser/],
+  method: 'GET'
+}))
 
 // 使用响应处理中间件
 app.use(response)
