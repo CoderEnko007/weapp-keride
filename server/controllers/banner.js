@@ -47,7 +47,7 @@ const storage = multer.diskStorage({
 async function post(ctx) {
   let path = ctx.req.file.path;
   path = path.substr(path.indexOf('\\')+1).replace(/\\/g,"/");
-  path = `http://${ctx.req.headers.host}/${path}`;
+  // path = `http://${ctx.req.headers.host}/${path}`;
   try {
     await mysql('banner').insert({
       image: path

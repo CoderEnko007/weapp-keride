@@ -18,7 +18,7 @@
       </div>
       <div class="cell">
         <span class="label">电话</span>
-        <span class="content" @click="makePhoneCall(item.phone)">{{item.phone}}</span>
+        <span class="content" @click="handlePhoneCall(item.phone)">{{item.phone}}</span>
       </div>
       <div class="cell">
         <span class="label">传真</span>
@@ -29,6 +29,7 @@
         <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
     </div>
+    <!--<button @click="upload">测试</button>-->
     <button open-type="contact" class="contact zan-btn--primary">联系客服</button>
   </div>
   <floatBtnGroup></floatBtnGroup>
@@ -54,10 +55,9 @@
     methods: {
       getContactList() {
         getContacts().then(res => {
-          console.log(res);
           this.show = true;
-          this.contacts = res.data;
-          let data = res.data;
+          this.contacts = res;
+          let data = res;
           for (let i in data) {
             if (data.hasOwnProperty(i)) {
               this.markers[i] = [{
@@ -102,9 +102,30 @@
           }
         })
       },
-      makePhoneCall(number) {
+      handlePhoneCall(number) {
         wx.makePhoneCall({
-          phoneNumber: number //仅为示例，并非真实的电话号码
+          phoneNumber: number
+        })
+      },
+      upload() {
+        wx.chooseImage({
+          success: function(res) {
+            var tempFilePaths = res.tempFilePaths
+            let url = `${global.host}/api/upload1`;
+            wx.uploadFile({
+              url: url, //仅为示例，非真实的接口地址
+              filePath: tempFilePaths[0],
+              name: 'file',
+              formData:{
+                'user': 'test'
+              },
+              success: function(res){
+                var data = res.data
+                console.log(data)
+                //do something
+              }
+            })
+          }
         })
       }
     },
@@ -157,6 +178,7 @@
   }
   .contact {
     margin-top: 10px;
+    margin-bottom: 10px;
   }
 }
 </style>

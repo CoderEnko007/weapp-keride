@@ -2,7 +2,7 @@
 <div class="container" v-show="show">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
-    <div class="hTitle">联系我们</div>
+    <div class="hTitle">合作伙伴</div>
   </div>
   <div class="list">
     <div class="pic" v-for="(item, index) in list" :key="index" @click="previewImage(item)">
@@ -31,8 +31,9 @@
     methods: {
       getPartnerList() {
         getPartner().then(res => {
+          console.log(res)
           this.show = true;
-          this.list = res.data;
+          this.list = res;
         })
       },
       previewImage(item) {

@@ -20,7 +20,7 @@ async function post(ctx) {
   let path = ctx.req.file.path;
   let {name} = ctx.req.body;
   path = path.substr(path.indexOf('\\')+1).replace(/\\/g,"/");
-  path = `http://${ctx.req.headers.host}/${path}`;
+  // path = `http://${ctx.req.headers.host}/${path}`;
   try {
     await mysql('partner').insert({
       image: path,

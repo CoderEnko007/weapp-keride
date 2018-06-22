@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      backgroundImage: global.background,
+      backgroundImage: '',
       intro: '',
       show: false
     }
@@ -35,9 +35,9 @@ export default {
       getIntro().then(res => {
         // 移除富文本中的图片
         // this.intro = res.data.text.replace(/(<img).+?(">)/ig, '');
-        this.intro = res.data.text;
-        if(res.data.image.length > 0) {
-          this.backgroundImage = res.data.image;
+        this.intro = res.text;
+        if(res.image.length > 0) {
+          this.backgroundImage = res.image;
         }
         // 加载完数据后再显示
         this.$nextTick(() => {
@@ -59,7 +59,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import "../../../static/style/global";
+@import "../../utils/style/global";
 .body {
   margin-top: 15px;
   .text {

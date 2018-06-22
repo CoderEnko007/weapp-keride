@@ -55,7 +55,7 @@ export default {
         {icon: '/static/img/news.png', text: '新闻动态', url: '/pages/News/main', isTab: false},
         {icon: '/static/img/contact1.png', text: '联系我们', url: '/pages/Contact/main', isTab: true},
       ],
-      backgroundImage: global.background,
+      backgroundImage: '',
       refreshFlag: 0,
 
     }
@@ -68,7 +68,7 @@ export default {
   methods: {
     initBanners() {
       getBanners().then(res => {
-          this.banners = res.data.list;
+          this.banners = res;
           this.handleStopPullDown();
         }).catch(err => {
           this.handleStopPullDown();
@@ -78,55 +78,35 @@ export default {
     initIntro() {
       getIntro().then(res => {
         // 去除html标签，截取正文
-        this.intro = res.data.text.replace(/<[^>]*>|/g,""); //去除HTML tag
+        this.intro = res.text.replace(/<[^>]*>|/g,""); //去除HTML tag
         this.intro = this.intro.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
         this.intro = this.intro.replace(/&nbsp;/ig,'');//去掉&nbsp;
         this.intro = this.intro.replace(/\s/g,''); //将空格去掉
-        if(res.data.image.length > 0) {
-          this.backgroundImage = res.data.image;
+        if(res.image.length > 0) {
+          this.backgroundImage = res.image;
         }
         this.handleStopPullDown();
-        console.log(this.intro, this.backgroundImage)
       })
     },
     initProducts() {
-      getProducts().then(res => {
-        this.productsList = res.data.map(v => {
-          let item = {};
-          item.id = v.id;
-          item.name = v.name;
-          item.image = global.defaultImage;
-          if (v.image !== undefined) {
-            v.image = JSON.parse(v.image);
-            if (v.image.length > 0) {
-              item.image = v.image[0]
-            }
-          }
-          return item
-        }).slice(0, 4);
+      getProducts({ page: 1 }).then(res => {
+        this.productsList = res.results.slice(0, 4);
         this.handleStopPullDown();
       })
     },
     initNews() {
       getNews().then(res => {
-        this.news = res.data.map(v => {
+        this.news = res.results.map(v => {
           let item = {};
           item.id = v.id;
           item.title = v.title;
-          item.desc = v.description.replace(/<[^>]*>|/g,"");
+          item.desc = v.desc.replace(/<[^>]*>|/g,"");
           let date = new Date(v.create_time);
           item.create_time = index.formatTime(date);
-          item.image = global.defaultImage;
-          if (v.image !== undefined) {
-            v.image = JSON.parse(v.image);
-            if (v.image.length > 0) {
-              item.image = v.image[0]
-            }
-          }
+          item.image = v.image;
           return item
         }).slice(0, 3);
         this.handleStopPullDown();
-        console.log(this.news)
       })
     },
     swiperClick(itemId) {

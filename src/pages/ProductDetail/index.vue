@@ -32,10 +32,11 @@ export default {
   methods: {
     getDetail() {
       getProductDetail(this.product_id).then(res => {
-        this.product_name = res.data.name;
-        this.description = res.data.description[0];
+        console.log(res)
+        this.product_name = res.name;
+        this.description = res.desc;
         this.show = true;
-        let date = new Date(res.data.create_time);
+        let date = new Date(res.create_time);
         this.create_time = index.formatTime(date);
       })
     }

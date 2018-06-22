@@ -26,7 +26,7 @@
     data() {
       return {
         backgroundImage: global.background,
-        page: 0,
+        page: 1,
         pageSize: 6,
         newsList: [],
         more: true,
@@ -36,25 +36,22 @@
     methods: {
       getNewsList(init) {
         if (init) {
-          this.page = 0;
+          this.page = 1;
           this.more = true;
         }
         getNews({page: this.page}).then(res => {
           console.log(res);
           this.show = true;
-          let list = res.data.map(v => {
+          let list = res.results.map(v => {
             let item = {};
             item.id = v.id;
             item.title = v.title;
-            item.desc = v.description.replace(/<[^>]*>|/g,"");
+            item.desc = v.desc.replace(/<[^>]*>|/g,"");
             let date = new Date(v.create_time);
             item.create_time = index.formatTime(date);
             item.image = global.defaultImage;
             if (v.image !== undefined) {
-              v.image = JSON.parse(v.image);
-              if (v.image.length > 0) {
-                item.image = v.image[0]
-              }
+              item.image = v.image
             }
             return item
           });

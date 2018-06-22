@@ -31,13 +31,11 @@
     methods: {
       getDetail() {
         getNewsDetail(this.news_id).then(res => {
-          this.news_title = res.data.title;
-          console.log(res.data.description)
-          this.description = res.data.description;
+          this.news_title = res.title;
+          this.description = res.desc;
           this.show = true;
-          let date = new Date(res.data.create_time);
+          let date = new Date(res.create_time);
           this.create_time = index.formatTime(date);
-          console.log(res.data)
         })
       }
     },

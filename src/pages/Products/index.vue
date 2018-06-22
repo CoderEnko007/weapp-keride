@@ -34,8 +34,8 @@
           scroll: true,
           height: 25
         },
-        page: 0,
-        pageSize: 6,
+        page: 1,
+        pageSize: 4,
         more: true,
         productsList: []
       }
@@ -59,13 +59,13 @@
       },
       initCategoryTabbar() {
         getCategorys().then(res => {
-          this.category.list = res.data.list.map(v => {
+          this.category.list = res.map(v => {
             let tab = {};
             tab.id = v.id;
             tab.title = v.name;
-            this.loadStep += 1;
             return tab
           });
+          this.loadStep += 1;
           this.category.list.unshift({
             id: 0,
             title: '全部'
@@ -74,14 +74,14 @@
       },
       getProductsList(init, categoryId=0) {
         if (init) {
-          this.page = 0;
+          this.page = 1;
           this.more = true;
         }
         let param = {};
-        if (categoryId) {
+        if (categoryId && categoryId > 0) {
           param = {
             page: this.page,
-            category_id: categoryId
+            category: categoryId
           }
         } else {
           param = { page: this.page }
@@ -89,20 +89,9 @@
         wx.showNavigationBarLoading();
         getProducts(param)
           .then(res => {
-            let list = res.data.map(v => {
-              let item = {};
-              item.id = v.id;
-              item.name = v.name;
-              item.image = global.defaultImage;
-              if (v.image !== undefined) {
-                v.image = JSON.parse(v.image);
-                if (v.image.length > 0) {
-                  item.image = v.image[0]
-                }
-              }
-              this.loadStep += 1;
-              return item
-            });
+            console.log(res)
+            let list = res.results;
+            this.loadStep += 1;
             if (list.length<this.pageSize) {
               this.more = false;
             }
@@ -129,7 +118,8 @@
     },
     mounted() {
       this.initCategoryTabbar();
-      this.getProductsList(true)
+      this.getProductsList(true);
+      console.log(this.backgroundImage)
     },
     onPullDownRefresh() {
       this.initCategoryTabbar();

@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
 });
 async function post(ctx) {
   let path = ctx.req.file.path;
+  console.log(path)
   path = path.substr(path.indexOf('\\')+1).replace(/\\/g,"/");
   path = `http://${ctx.req.headers.host}/${path}`;
   ctx.state.data = {

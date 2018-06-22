@@ -13,8 +13,8 @@ export default {
 
 <style lang="scss">
 @import url("~mpvue-wxparse/src/wxParse.css");
-@import "../static/style/zanui.wxss";
-@import "../static/style/global";
+@import "utils/style/zanui.wxss";
+@import "utils/style/global";
 * {
   box-sizing: border-box;
 }
