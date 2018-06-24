@@ -11,10 +11,11 @@ const options = {
   scope: 'image',
   expires: 7200
 };
-const putPolicy = new qiniu.rs.PutPolicy(options);
-const uploadToken = putPolicy.uploadToken(mac);
 
 async function get(ctx) {
+  const putPolicy = new qiniu.rs.PutPolicy(options);
+  const uploadToken = putPolicy.uploadToken(mac);
+
   ctx.state.data = {
     token: uploadToken
   }

@@ -19,7 +19,7 @@ async function adminLogin (ctx) {
       const token = jwt.sign(userToken, config.sign, {expiresIn: '1h'})  // 签发token
       ctx.body = {
         message: '成功',
-        bean: {
+        data: {
           token
         },
         code: 1
@@ -62,7 +62,7 @@ async function createAdminUser (ctx) {
         name: newUser.name,
         id: newUser.id
       };
-      const token = jwt.sign(userToken, config.sign, {expiresIn: '1h'})
+      const token = jwt.sign(userToken, config.sign, {expiresIn: '1h'});
 
       ctx.body = {
         code: 1,
@@ -81,12 +81,16 @@ async function createAdminUser (ctx) {
 }
 
 async function getUserInfo (ctx) {
-  const user = ctx.user;
+  const user = await mysql('admin_user').select('*').where('id', ctx.user.id).first();
   if (user) {
     ctx.body = {
       code: 1,
       message: '成功',
-      user
+      data: {
+        roles: [user.username],
+        name: user.username,
+        avatar: user.avatar
+      }
     }
   } else {
     ctx.body = {

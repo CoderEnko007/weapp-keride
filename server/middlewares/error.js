@@ -17,7 +17,7 @@ module.exports = function () {
           // ctx.user中存放登陆者信息，可以在getUserInfo中获取
           ctx.user = {
             username: payload.username,
-            id: payload.id
+            id: payload.id,
           };
         } catch (err) {
           console.log('token verify fail: ', err)
@@ -30,7 +30,7 @@ module.exports = function () {
     } catch (err) {
       if (err.status === 401) {
         ctx.body = {
-          code: -1,
+          code: 50014,
           message: '认证失败'
         }
       } else {
