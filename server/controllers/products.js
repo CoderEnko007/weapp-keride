@@ -7,7 +7,7 @@ async function post(ctx) {
     ctx.state = {
       code: -1,
       data: {
-        msg: '该商品已存在'
+        error: '该商品已存在'
       }
     };
     return
@@ -24,12 +24,16 @@ async function post(ctx) {
     if (e.code === 'ER_DATA_TOO_LONG') {
       ctx.state = {
         code: -1,
-        error: '内容过长'
+        data: {
+          error: '内容过长'
+        }
       }
     } else {
       ctx.state = {
         code: -1,
-        error: e.sqlMessage
+        data: {
+          error: e.sqlMessage
+        }
       }
     }
   }
@@ -50,7 +54,9 @@ async function patch(ctx) {
     if (e.code === 'ER_DATA_TOO_LONG') {
       ctx.state = {
         code: -1,
-        error: '内容过长'
+        data: {
+          error: '内容过长'
+        }
       }
     }
   }
@@ -58,16 +64,17 @@ async function patch(ctx) {
 
 async function getDetail(ctx) {
   const {id} = ctx.params;
-  let product = await mysql('products').select('*')
-    .where('id', id)
-    .first();
+  let product = await mysql('products').where('id', id).first();
   let category = {};
   let click_nums = product.click_nums;
+
   if (product) {
     category = await mysql('category').select('*').where('id', product.category_id).first();
-    await mysql('products').select('*').where('id', id).update({
-      click_nums: click_nums+1
-    })
+    if (!ctx.header.authorization) {
+      await mysql('products').select('*').where('id', id).update({
+        click_nums: click_nums+1
+      })
+    }
   }
   ctx.state.data = Object.assign({}, product, {
     category: {
@@ -78,26 +85,46 @@ async function getDetail(ctx) {
 }
 
 async function get(ctx) {
-  const {category_id, page=0} = ctx.request.query;
+  const {name, category_id, sort, page=1} = ctx.request.query;
   const pageSize = 6;
-  console.log(ctx.request.query)
 
-  let list = [];
+  let count = mysql('products')
+
+  let list = mysql('products')
+    .join('category', 'products.category_id', 'category.id')
+    .select('products.*', 'category.name as category')
+    .limit(pageSize)
+    .offset(Number(page-1) * pageSize);
   if (category_id) {
-    // 获取某类商品列表
-    list = await mysql('products').select('*')
-      .where('category_id', category_id)
-      .orderBy('create_time', 'desc')
-      .limit(pageSize)
-      .offset(Number(page) * pageSize);
-  } else {
-    // 获取所有商品列表
-    list = await mysql('products').select('*')
-      .orderBy('create_time', 'desc')
-      .limit(pageSize)
-      .offset(Number(page) * pageSize);
+    list = list.where('products.category_id', category_id)
+    count = count.where('category_id', category_id)
   }
-  ctx.state.data = list;
+  if (name) {
+    list = list.where('products.name', 'like', `%${name}%`)
+    count = count.where('products.name', 'like', `%${name}%`)
+  }
+
+  count = await count.count('* as count').first()
+  list = await list.orderBy('id', sort)
+
+  list.map(v => {
+    const category_name = v.category
+    const category_id = v.category_id
+    delete v.category
+    delete v.category_id
+    v.category = {
+      id: category_id,
+      name: category_name
+    }
+    return v
+  })
+  ctx.state = {
+    code: 0,
+    data: {
+      count: count.count,
+      list: list
+    }
+  }
 }
 
 async function del(ctx) {

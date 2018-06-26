@@ -24,7 +24,9 @@ async function get(ctx) {
   }catch (e) {
     ctx.state = {
       code: -1,
-      data: e
+      data: {
+        error: e.sqlMessage
+      }
     }
   }
 }
@@ -43,7 +45,9 @@ async function patch(ctx) {
   }catch (e) {
     ctx.state = {
       code: -1,
-      data: e
+      data: {
+        error: e.sqlMessage
+      }
     }
   }
 }

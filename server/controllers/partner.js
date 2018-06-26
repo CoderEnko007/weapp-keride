@@ -17,7 +17,9 @@ async function post(ctx) {
   } catch(e){
     ctx.state = {
       code: -1,
-      error: '上传失败:'+e.sqlMessage
+      data: {
+        error: '上传失败:'+e.sqlMessage
+      }
     }
   }
 }
@@ -32,7 +34,9 @@ async function del(ctx) {
   } catch (e) {
     ctx.state = {
       code: -1,
-      error: '删除失败:'+e
+      data: {
+        error: '删除失败:' + e
+      }
     };
   }
 }

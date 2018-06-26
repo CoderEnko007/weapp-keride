@@ -31,7 +31,9 @@ module.exports = function () {
       if (err.status === 401) {
         ctx.body = {
           code: 50014,
-          message: '认证失败'
+          data: {
+            error: '认证失败'
+          }
         }
       } else {
         err.status = 404;
