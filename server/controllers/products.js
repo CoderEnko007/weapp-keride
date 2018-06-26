@@ -85,9 +85,7 @@ async function getDetail(ctx) {
 }
 
 async function get(ctx) {
-  const {name, category_id, sort, page=1} = ctx.request.query;
-  const pageSize = 6;
-
+  const {name, category_id, sort, page=1, pageSize = 6} = ctx.request.query;
   let count = mysql('products')
 
   let list = mysql('products')
@@ -95,6 +93,7 @@ async function get(ctx) {
     .select('products.*', 'category.name as category')
     .limit(pageSize)
     .offset(Number(page-1) * pageSize);
+
   if (category_id) {
     list = list.where('products.category_id', category_id)
     count = count.where('category_id', category_id)

@@ -3,16 +3,15 @@ const {mysql} = require('../qcloud')
 //获取轮播图列表
 async function get(ctx) {
   const {id} = ctx.params;
-  console.log(ctx.params)
   if (id) {
     const banner = await mysql('banner').select('*').where('id', id).first();
-    console.log(banner)
     let result = {};
     if (banner) {
       let product = await mysql('products').select('*').where('id', banner.product_id).first();
       result = Object.assign({}, {
         id: banner.id || '',
         image: banner.image || '',
+        index: banner.index || '',
         product: {
           id: product.id,
           name: product.name
@@ -27,6 +26,7 @@ async function get(ctx) {
       return Object.assign({}, {
         id: v.id || '',
         image: v.image || '',
+        index: v.index || '',
         product: {
           id: product.id,
           name: product.name
@@ -34,35 +34,32 @@ async function get(ctx) {
       })
     }));
 
-    console.log(result);
     ctx.state.data = result
   }
 }
 
 // 上传轮播图
 async function post(ctx) {
-  let {image, product_id, index} = ctx.request.body;
-  console.log('aaa',ctx.request.body)
+  const {image, product_id, index} = ctx.request.body;
   try {
     await mysql('banner').insert({
-      image: image,
-      product_id: product_id,
-      index: index
+      image, product_id, index
     });
     ctx.state.data = {
-      image: image
+      msg: "success"
     }
   } catch(e){
     ctx.state = {
       code: -1,
-      error: '上传失败:'+e.sqlMessage
+      data: {
+        error: '上传失败:'+e.sqlMessage
+      }
     }
   }
 }
 
 async function patch(ctx) {
-  let {image, product_id, index} = ctx.request.body;
-  console.log(ctx.request.body)
+  let {id, image, product_id, index} = ctx.request.body;
   try {
     await mysql('banner').select('*').where('id', id).first().update({
       image, product_id, index
@@ -75,12 +72,16 @@ async function patch(ctx) {
     if (e.code === 'ER_DATA_TOO_LONG') {
       ctx.state = {
         code: -1,
-        error: '内容过长'
+        data: {
+          error: '内容过长'
+        }
       }
     } else {
       ctx.state = {
         code: -1,
-        error: e.sqlMessage
+        data: {
+          error: e.sqlMessage
+        }
       }
     }
   }
