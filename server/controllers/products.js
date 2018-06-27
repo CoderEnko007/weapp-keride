@@ -7,7 +7,7 @@ async function post(ctx) {
     ctx.state = {
       code: -1,
       data: {
-        error: '该商品已存在'
+        error: '该名称已存在'
       }
     };
     return
@@ -41,6 +41,17 @@ async function post(ctx) {
 
 async function patch(ctx) {
   const {id, name, image, desc, category_id} = ctx.request.body;
+  console.log(id, name, image, desc, category_id)
+  const findRes = await mysql('products').select('*').where('name',name);
+  if (findRes.length) {
+    ctx.state = {
+      code: -1,
+      data: {
+        error: '该名称已存在'
+      }
+    };
+    return
+  }
   try {
     await mysql('products').select('*').where('id', id).first().update({
       name, image, desc, category_id
@@ -56,6 +67,13 @@ async function patch(ctx) {
         code: -1,
         data: {
           error: '内容过长'
+        }
+      }
+    } else {
+      ctx.state = {
+        code: -1,
+        data: {
+          error: e.sqlMessage
         }
       }
     }

@@ -13,7 +13,6 @@ async function post(ctx) {
       msg: 'success'
     }
   } catch (e) {
-    console.log('aaa', e.sqlMessage);
     if (e.code === 'ER_DATA_TOO_LONG') {
       ctx.state = {
         code: -1,
@@ -29,9 +28,9 @@ async function post(ctx) {
 }
 
 async function patch(ctx) {
-  const {id, latitude, longitude, address, phone, email, fax, zipcode} = ctx.request.body;
+  const {id, name, latitude, longitude, address, phone, email, fax, zipcode} = ctx.request.body;
   await mysql('contact').select('*').where('id', id).first().update({
-    latitude, longitude, address, phone, email, fax, zipcode
+    name, latitude, longitude, address, phone, email, fax, zipcode
   });
   ctx.state.data = {
     msg: '更新成功'
