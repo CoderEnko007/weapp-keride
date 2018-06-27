@@ -12,6 +12,27 @@ async function post(ctx) {
       image, name
     });
     ctx.state.data = {
+      msg: 'success',
+      image: image
+    }
+  } catch(e){
+    ctx.state = {
+      code: -1,
+      data: {
+        error: '上传失败:'+e.sqlMessage
+      }
+    }
+  }
+}
+
+async function patch(ctx) {
+  let {id, image, name} = ctx.request.body;
+  try {
+    await mysql('partner').select('*').where('id', id).first().update({
+      image, name
+    });
+    ctx.state.data = {
+      msg: 'success',
       image: image
     }
   } catch(e){
@@ -44,5 +65,6 @@ async function del(ctx) {
 module.exports = {
   get,
   post,
+  patch,
   del
 };

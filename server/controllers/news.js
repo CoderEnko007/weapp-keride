@@ -54,15 +54,26 @@ async function patch(ctx) {
 }
 
 async function get(ctx) {
-  const {page=0} = ctx.request.query;
-  const pageSize = 6;
+  const {title, sort, page=0, pageSize=4} = ctx.request.query;
 
-  let newsList = await mysql('news').select('*')
-    .orderBy('create_time', 'desc')
-    .limit(pageSize)
-    .offset(Number(page) * pageSize);
-  console.log(newsList);
-  ctx.state.data = newsList;
+  console.log(sort, page, pageSize)
+  let count = mysql('news')
+  let newsList = mysql('news').select('*').orderBy('id', sort)
+
+  if (title) {
+    newsList = newsList.where('news.title', 'like', `%${title}%`)
+    count = count.where('news.title', 'like', `%${title}%`)
+  }
+  newsList = await newsList.limit(pageSize).offset(Number(page-1) * pageSize)
+  count = await count.count('* as count').first()
+
+  ctx.state = {
+    code: 0,
+    data: {
+      count: count.count,
+      list: newsList
+    }
+  }
 }
 
 async function getDetail(ctx) {

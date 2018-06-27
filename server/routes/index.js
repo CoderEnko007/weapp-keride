@@ -69,6 +69,7 @@ router.delete('/contacts/:id', controllers.contacts.del)
 
 router.get('/partner', controllers.partner.get)
 router.post('/partner', controllers.partner.post)
+router.patch('/partner', controllers.partner.patch)
 router.delete('/partner/:id', controllers.partner.del)
 
 router.get('/token', controllers.qiniu.get)

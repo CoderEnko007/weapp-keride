@@ -100,7 +100,13 @@ export default {
           let item = {};
           item.id = v.id;
           item.title = v.title;
-          item.desc = v.desc.replace(/<[^>]*>|/g,"");
+
+          // item.desc = v.desc.replace(/<[^>]*>|/g,"");
+          let desc = v.desc.replace(/<[^>]*>|/g,""); //去除HTML tag
+          desc = desc.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+          desc = desc.replace(/&nbsp;/ig,'');//去掉&nbsp;
+          item.desc = desc.replace(/\s/g,''); //将空格去掉
+
           let date = new Date(v.create_time);
           item.create_time = index.formatTime(date);
           item.image = v.image;
