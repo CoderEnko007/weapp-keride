@@ -54,7 +54,7 @@ async function patch(ctx) {
 }
 
 async function get(ctx) {
-  const {title, sort, page=0, pageSize=4} = ctx.request.query;
+  const {title, sort, page=1, pageSize=5} = ctx.request.query;
 
   console.log(sort, page, pageSize)
   let count = mysql('news')

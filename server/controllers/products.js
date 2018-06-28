@@ -41,17 +41,22 @@ async function post(ctx) {
 
 async function patch(ctx) {
   const {id, name, image, desc, category_id} = ctx.request.body;
-  console.log(id, name, image, desc, category_id)
-  const findRes = await mysql('products').select('*').where('name',name);
-  if (findRes.length) {
-    ctx.state = {
-      code: -1,
-      data: {
-        error: '该名称已存在'
-      }
-    };
-    return
+
+  const origName = await mysql('products').select('name').where('id', id).first();
+  console.log(origName.name, name)
+  if (origName.name !== name) {
+    const findRes = await mysql('products').where('name',name);
+    if (findRes.length) {
+      ctx.state = {
+        code: -1,
+        data: {
+          error: '该名称已存在'
+        }
+      };
+      return
+    }
   }
+
   try {
     await mysql('products').select('*').where('id', id).first().update({
       name, image, desc, category_id

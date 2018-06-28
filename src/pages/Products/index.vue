@@ -1,13 +1,13 @@
 <template>
-<div id="productList" v-show="showList">
+<div id="productList">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">产品中心</div>
   </div>
-  <div class="tabBar">
+  <div class="tabBar" v-if="category.list">
     <ZanTab v-bind="category" :componentId="'category'" @change="handleZanTabChange"/>
   </div>
-  <div class="productList">
+  <div class="productList" v-if="productsList">
     <CardList :list="productsList" @cardClick="handleCardClick"></CardList>
     <p class="text-footer" v-if="!more">没有更多数据</p>
   </div>
@@ -59,7 +59,7 @@
       },
       initCategoryTabbar() {
         getCategorys().then(res => {
-          this.category.list = res.map(v => {
+          this.category.list = res.data.list.map(v => {
             let tab = {};
             tab.id = v.id;
             tab.title = v.name;
@@ -81,7 +81,7 @@
         if (categoryId && categoryId > 0) {
           param = {
             page: this.page,
-            category: categoryId
+            category_id: categoryId
           }
         } else {
           param = { page: this.page }
@@ -90,22 +90,22 @@
         getProducts(param)
           .then(res => {
             console.log(res)
-            let list = res.results;
-            this.loadStep += 1;
-            if (list.length<this.pageSize) {
-              this.more = false;
-            }
+            let list = res.data.list;
+            // this.loadStep += 1;
             if (init) {
               this.productsList = list;
               wx.stopPullDownRefresh();
             } else {
               this.productsList = this.productsList.concat(list)
             }
+            if (this.productsList.length >= res.data.count) {
+              this.more = false;
+            }
             wx.stopPullDownRefresh();
             wx.hideNavigationBarLoading()
           }).catch(error => {
             console.log(error);
-            this.loadStep += 1;
+            // this.loadStep += 1;
             wx.showToast({
               title: '加载失败',
               icon: 'none',

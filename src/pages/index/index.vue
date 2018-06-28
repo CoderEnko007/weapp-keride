@@ -1,26 +1,26 @@
 <template>
-<div class="container" v-show="showPage">
-  <Swiper :banners="banners" @swiperClick="swiperClick"></Swiper>
+<div class="container">
+  <Swiper :banners="banners" @swiperClick="swiperClick" v-if="banners"></Swiper>
   <div class="navTab">
     <div class="navItem" v-for="(item, index) in navTab" :key="index" @click="navTabClick(item)">
       <img :src="item.icon" mode="aspectFit">
       <p>{{item.text}}</p>
     </div>
   </div>
-  <div class="intro">
-    <img :src="backgroundImage" mode="aspectFill">
+  <div class="intro" v-if="intro">
+    <img :src="intro.image" mode="aspectFill">
     <div class="about">
       <div class="title">关于我们</div>
-      <p class="text zan-ellipsis--l3">{{intro}}</p>
+      <p class="text zan-ellipsis--l3">{{intro.text}}</p>
       <button class="more" @click="moreIntro">了解更多</button>
     </div>
   </div>
-  <div class="card-block">
+  <div class="card-block" v-if="productsList">
     <div class="title">产品列表</div>
     <CardList :list="productsList" @cardClick="handleCardClick"></CardList>
     <button class="more" @click="moreProducts">查看更多</button>
   </div>
-  <div class="card-block">
+  <div class="card-block" v-if="news">
     <div class="title">新闻动态</div>
     <CardBoard :list="news" @cardClick="handleNewsClick"></CardBoard>
     <button class="more" @click="moreNews">查看更多</button>
@@ -68,7 +68,7 @@ export default {
   methods: {
     initBanners() {
       getBanners().then(res => {
-          this.banners = res;
+          this.banners = res.data;
           this.handleStopPullDown();
         }).catch(err => {
           this.handleStopPullDown();
@@ -77,26 +77,25 @@ export default {
     },
     initIntro() {
       getIntro().then(res => {
+        this.intro = res.data;
         // 去除html标签，截取正文
-        this.intro = res.text.replace(/<[^>]*>|/g,""); //去除HTML tag
-        this.intro = this.intro.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
-        this.intro = this.intro.replace(/&nbsp;/ig,'');//去掉&nbsp;
-        this.intro = this.intro.replace(/\s/g,''); //将空格去掉
-        if(res.image.length > 0) {
-          this.backgroundImage = res.image;
-        }
+        let text = res.data.text.replace(/<[^>]*>|/g,""); //去除HTML tag
+        text = text.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+        text = text.replace(/&nbsp;/ig,'');//去掉&nbsp;
+        this.intro.text = text.replace(/\s/g,''); //将空格去掉
         this.handleStopPullDown();
       })
     },
     initProducts() {
       getProducts({ page: 1 }).then(res => {
-        this.productsList = res.results.slice(0, 4);
+        this.productsList = res.data.list.slice(0, 4);
+        console.log(this.productsList)
         this.handleStopPullDown();
       })
     },
     initNews() {
-      getNews().then(res => {
-        this.news = res.results.map(v => {
+      getNews({ page: 1 }).then(res => {
+        this.news = res.data.list.map(v => {
           let item = {};
           item.id = v.id;
           item.title = v.title;

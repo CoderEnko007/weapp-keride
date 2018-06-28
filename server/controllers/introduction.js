@@ -3,7 +3,6 @@ const {mysql} = require('../qcloud')
 async function get(ctx) {
   try {
     const intro = await mysql('introduction').select('*').first();
-    console.log(intro)
     if (intro) {
       ctx.state.data = Object.assign({}, {
         image: intro.image,

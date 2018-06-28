@@ -1,18 +1,25 @@
 <template>
-  <div class="container" v-show="show">
-    <TitleHeader :name="product_name" :time="create_time"></TitleHeader>
+  <div class="container" v-if="show">
+    <TitleHeader :name="product.name" :time="product.create_time"></TitleHeader>
     <div class="body">
-      <wxParse :content="description" noData=""/>
+      <wxParse :content="product.desc" noData=""/>
     </div>
     <floatBtnGroup></floatBtnGroup>
   </div>
 </template>
 <script>
-import index from '../../utils/index';
+import {formatTime} from '../../utils/index';
 import {getProductDetail} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
 import TitleHeader from '../../components/TitleHeader';
 import floatBtnGroup from '@/components/floatBtnGroup';
+
+const defaultProduct = {
+  id: null,
+  name: '',
+  desc: '',
+  create_time: ''
+}
 
 export default {
   components: {
@@ -22,27 +29,25 @@ export default {
   },
   data() {
     return {
-      product_id: 0,
-      product_name: '',
-      description: '',
-      create_time: '',
+      product: Object.assign({}, defaultProduct),
       show: false
     }
   },
   methods: {
     getDetail() {
-      getProductDetail(this.product_id).then(res => {
-        console.log(res)
-        this.product_name = res.name;
-        this.description = res.desc;
+      getProductDetail(this.product.id).then(res => {
+        this.product = res.data
+        console.log(this.product)
         this.show = true;
-        let date = new Date(res.create_time);
-        this.create_time = index.formatTime(date);
+        let date = new Date(res.data.create_time);
+        this.product.create_time = formatTime(date);
       })
     }
   },
   mounted() {
-    this.product_id = this.$root.$mp.query.id;
+    this.show = false;
+    this.product = Object.assign({}, defaultProduct);
+    this.product.id = this.$root.$mp.query.id;
     this.getDetail();
   },
   onShareAppMessage(res) {

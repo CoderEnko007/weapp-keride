@@ -1,19 +1,18 @@
 <template>
-<div id="intro" v-show="show">
+<div id="intro" v-if="intro">
   <div class="header" >
-    <img :src="backgroundImage" mode="aspectFill">
+    <img :src="intro.image" mode="aspectFill">
     <div class="hTitle">关于我们</div>
   </div>
   <div class="body">
     <div class="text">
-      <wxParse :content="intro" />
+      <wxParse :content="intro.text" />
     </div>
   </div>
   <floatBtnGroup></floatBtnGroup>
 </div>
 </template>
 <script>
-import global from '../../utils/global'
 import {getIntro} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
 import floatBtnGroup from '@/components/floatBtnGroup';
@@ -25,9 +24,7 @@ export default {
   },
   data() {
     return {
-      backgroundImage: '',
-      intro: '',
-      show: false
+      intro: null,
     }
   },
   methods: {
@@ -35,15 +32,7 @@ export default {
       getIntro().then(res => {
         // 移除富文本中的图片
         // this.intro = res.data.text.replace(/(<img).+?(">)/ig, '');
-        this.intro = res.text;
-        if(res.image.length > 0) {
-          this.backgroundImage = res.image;
-        }
-        // 加载完数据后再显示
-        this.$nextTick(() => {
-          this.show = true
-        });
-        console.log(this.intro, this.backgroundImage)
+        this.intro = res.data;
       })
     },
   },

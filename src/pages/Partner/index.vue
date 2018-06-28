@@ -33,7 +33,7 @@
         getPartner().then(res => {
           console.log(res)
           this.show = true;
-          this.list = res;
+          this.list = res.data;
         })
       },
       previewImage(item) {
@@ -55,14 +55,20 @@
 </script>
 <style lang="scss" scoped>
 .list {
-  padding: 30rpx;
-  column-width: 200rpx;
+  margin: 30rpx;
+  /*column-width: 200rpx;*/
+  column-count: 3;
+  column-gap:20px;
   .pic {
-    margin: 15rpx 0 30rpx;
+    margin-bottom: 15px;
+    margin-top: 5px;
     padding: 5px;
     box-shadow: 0 0 15px #CCC;
+    border: solid 1px #eee;
+    border-radius: 4px;
+    break-inside: avoid;
     img {
-      max-width: 200rpx;
+      width: 100%;
     }
   }
 }

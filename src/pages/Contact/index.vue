@@ -8,23 +8,23 @@
     <div class="contact-item" v-for="(item, index) in contacts" :key="index">
       <h2 class="name">{{item.name}}</h2>
       <map id="map" :longitude="item.longitude"  :latitude="item.latitude" :markers="markers[index]"></map>
-      <div class="cell">
+      <div class="cell" v-if="item.address">
         <span class="label">地址</span>
         <span class="content" @click="openMap(item)">{{item.address}}</span>
       </div>
-      <div class="cell">
+      <div class="cell" v-if="item.zipcode">
         <span class="label">邮编</span>
         <span class="content" @click="copyText(item.zipcode)">{{item.zipcode}}</span>
       </div>
-      <div class="cell">
+      <div class="cell" v-if="item.phone">
         <span class="label">电话</span>
         <span class="content" @click="handlePhoneCall(item.phone)">{{item.phone}}</span>
       </div>
-      <div class="cell">
+      <div class="cell" v-if="item.fax">
         <span class="label">传真</span>
         <span class="content" @click="copyText(item.fax)">{{item.fax}}</span>
       </div>
-      <div class="cell">
+      <div class="cell" v-if="item.email">
         <span class="label">邮箱</span>
         <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
@@ -56,8 +56,8 @@
       getContactList() {
         getContacts().then(res => {
           this.show = true;
-          this.contacts = res;
-          let data = res;
+          this.contacts = res.data;
+          let data = res.data;
           for (let i in data) {
             if (data.hasOwnProperty(i)) {
               this.markers[i] = [{
@@ -83,6 +83,7 @@
         })
       },
       openMap(v) {
+        console.log(Number(v.latitude), Number(v.longitude),v.name,v.address)
         wx.openLocation({
           latitude: Number(v.latitude),
           longitude: Number(v.longitude),
@@ -137,6 +138,9 @@
         title: '联系我们',
         path: `/pages/Contact/main`
       }
+    },
+    onPullDownRefresh() {
+      this.getContactList();
     }
   }
 </script>

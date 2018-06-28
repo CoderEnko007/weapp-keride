@@ -1,18 +1,27 @@
 <template>
   <div class="container" v-show="show">
-    <TitleHeader :name="news_title" :time="create_time"></TitleHeader>
+    <TitleHeader :name="newsDetail.title" :time="newsDetail.create_time"></TitleHeader>
     <div class="body">
-      <wxParse :content="description"/>
+      <wxParse :content="newsDetail.desc" noData=""/>
     </div>
     <floatBtnGroup></floatBtnGroup>
   </div>
 </template>
 <script>
-  import index from '../../utils/index';
+  import {formatTime} from '../../utils/index';
   import {getNewsDetail} from "../../utils/api";
   import wxParse from 'mpvue-wxparse';
   import TitleHeader from '../../components/TitleHeader';
   import floatBtnGroup from '@/components/floatBtnGroup';
+
+  const defaultNews = {
+    id: undefined,
+    title: '',
+    desc: '',
+    image: '',
+    create_time: ''
+  };
+
   export default {
     components: {
       wxParse,
@@ -21,26 +30,24 @@
     },
     data() {
       return {
-        show: false,
-        news_id: 0,
-        news_title: '',
-        create_time: '',
-        description: ''
+        newsDetail: Object.assign({}, defaultNews),
+        show: false
       }
     },
     methods: {
       getDetail() {
-        getNewsDetail(this.news_id).then(res => {
-          this.news_title = res.title;
-          this.description = res.desc;
+        getNewsDetail(this.newsDetail.id).then(res => {
+          this.newsDetail = res.data;
           this.show = true;
-          let date = new Date(res.create_time);
-          this.create_time = index.formatTime(date);
+          let date = new Date(res.data.create_time);
+          this.newsDetail.create_time = formatTime(date);
         })
       }
     },
     mounted() {
-      this.news_id = this.$root.$mp.query.id;
+      this.show = false;
+      this.newsDetail = Object.assign({}, defaultNews);
+      this.newsDetail.id = this.$root.$mp.query.id;
       this.getDetail()
     },
     onShareAppMessage(res) {

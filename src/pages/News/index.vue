@@ -1,5 +1,5 @@
 <template>
-<div id="news" v-show="show">
+<div id="news">
   <div class="header">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">新闻动态</div>
@@ -30,7 +30,6 @@
         pageSize: 6,
         newsList: [],
         more: true,
-        show: false,
       }
     },
     methods: {
@@ -40,13 +39,16 @@
           this.more = true;
         }
         getNews({page: this.page}).then(res => {
-          console.log(res);
-          this.show = true;
-          let list = res.results.map(v => {
+          let list = res.data.list.map(v => {
             let item = {};
             item.id = v.id;
             item.title = v.title;
-            item.desc = v.desc.replace(/<[^>]*>|/g,"");
+
+            let desc = v.desc.replace(/<[^>]*>|/g,""); //去除HTML tag
+            desc = desc.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+            desc = desc.replace(/&nbsp;/ig,'');//去掉&nbsp;
+            item.desc = desc.replace(/\s/g,''); //将空格去掉
+
             let date = new Date(v.create_time);
             item.create_time = index.formatTime(date);
             item.image = global.defaultImage;
@@ -55,14 +57,14 @@
             }
             return item
           });
-          if (list.length<this.pageSize) {
-            this.more = false;
-          }
           if (init) {
             this.newsList = list;
             wx.stopPullDownRefresh();
           } else {
             this.newsList = this.newsList.concat(list)
+          }
+          if (this.newsList.length >= res.data.count) {
+            this.more = false;
           }
           wx.stopPullDownRefresh();
           wx.hideNavigationBarLoading()
