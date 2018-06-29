@@ -1,8 +1,7 @@
 <template>
-<div id="productList">
-  <div class="header">
+<div class="product-container">
+  <div class="header" data-text="产品中心">
     <img :src="backgroundImage" mode="aspectFill">
-    <div class="hTitle">产品中心</div>
   </div>
   <div class="tabBar" v-if="category.list">
     <ZanTab v-bind="category" :componentId="'category'" @change="handleZanTabChange"/>
@@ -27,7 +26,7 @@
     data() {
       return {
         loadStep: 0,
-        backgroundImage: global.background,
+        backgroundImage: global.products,
         category: {
           list: [],
           selectedId: 0,
@@ -149,10 +148,13 @@
   }
 </script>
 <style lang="scss" scoped>
+.product-container {
+  padding-bottom: 10px;
+}
 .tabBar {
   height: 80rpx;
 }
 .productList {
-  margin: 10px 15px;
+  margin: 10px 15px 0;
 }
 </style>

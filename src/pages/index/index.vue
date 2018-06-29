@@ -114,8 +114,11 @@ export default {
         this.handleStopPullDown();
       })
     },
-    swiperClick(itemId) {
-      console.log("aaa",itemId)
+    swiperClick(item) {
+      console.log(item)
+      wx.navigateTo({
+        url: `/pages/ProductDetail/main?id=${item.product.id}`
+      })
     },
     navTabClick(item) {
       if (item.isTab) {

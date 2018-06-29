@@ -15,8 +15,7 @@ async function adminLogin (ctx) {
         username: user.username,
         id: user.id
       }
-      console.log(userToken)
-      const token = jwt.sign(userToken, config.sign, {expiresIn: '1h'})  // 签发token
+      const token = jwt.sign(userToken, config.sign, {expiresIn: '7d'})  // 签发token
       ctx.body = {
         message: '成功',
         data: {

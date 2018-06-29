@@ -65,6 +65,7 @@
 <style lang="scss" scoped>
 .container {
   margin: 15px;
+  padding-bottom: 5px;
   .body {
     font-size: 14px;
     margin: 15px 0;

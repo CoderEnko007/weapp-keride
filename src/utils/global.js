@@ -7,5 +7,8 @@ export default {
   host: host,
   defaultImage: `${host}/images/products/default.jpg`,
   background: `${host}/images/background/background.jpg`,
-  location: `${host}/images/temp/location.png`,
+  contact: `${host}/images/background/contacts.jpg`,
+  cooperation: `${host}/images/background/cooperation.jpg`,
+  news: `${host}/images/background/news.jpg`,
+  products: `${host}/images/background/products.jpg`,
 };

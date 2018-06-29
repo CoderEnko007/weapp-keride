@@ -36,7 +36,6 @@ export default {
 .card-list {
   display: flex;
   flex-wrap: wrap;
-  /*justify-content: space-around;*/
   .card {
     padding: 5rpx;
     text-align: center;
@@ -47,10 +46,13 @@ export default {
       height: 300rpx;
       border-radius: 15px;
       box-shadow: 5px 5px 10px #ccc;
+      top: 0;
+      left: 0;
+      transition: all 0.1s;
     }
     img:active {
       position: relative;
-      box-shadow: none;
+      box-shadow: 1px 1px 2px #ccc;
       top: 5px;
       left: 5px;
     }

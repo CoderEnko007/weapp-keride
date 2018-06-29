@@ -1,6 +1,6 @@
 <template>
 <div class="container" v-show="show">
-  <div class="header">
+  <div class="header" data-text="合作伙伴">
     <img :src="backgroundImage" mode="aspectFill">
     <div class="hTitle">合作伙伴</div>
   </div>
@@ -24,7 +24,7 @@
     data() {
       return {
         show: false,
-        backgroundImage: global.background,
+        backgroundImage: global.cooperation,
         list: []
       }
     },
@@ -59,6 +59,7 @@
   /*column-width: 200rpx;*/
   column-count: 3;
   column-gap:20px;
+  padding-bottom: 5px;
   .pic {
     margin-bottom: 15px;
     margin-top: 5px;

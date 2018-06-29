@@ -1,8 +1,7 @@
 <template>
-<div id="news">
-  <div class="header">
+<div class="news-container">
+  <div class="header" data-text="新闻动态">
     <img :src="backgroundImage" mode="aspectFill">
-    <div class="hTitle">新闻动态</div>
   </div>
   <div class="newsList">
     <CardBoard :list="newsList" @cardClick="handleCardClick"></CardBoard>
@@ -25,7 +24,7 @@
     },
     data() {
       return {
-        backgroundImage: global.background,
+        backgroundImage: global.news,
         page: 1,
         pageSize: 6,
         newsList: [],
@@ -107,5 +106,7 @@
   }
 </script>
 <style lang="scss" scoped>
-
+.news-container {
+  padding-bottom: 10px;
+}
 </style>

@@ -42,30 +42,32 @@ export default {
   position: relative;
   width: 100%;
   height: 275rpx;
+  overflow: hidden;
   img {
     width: 100%;
     height: 100%;
   }
-  .hTitle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 150px;
-    height: 40px;
-    line-height: 40px;
-    margin-top: -20px;
-    margin-left: -75px;
-    color: white;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 5px;
-    text-align: center;
-  }
 }
+.header:after{
+  position:absolute;
+  left: 0;
+  top:0;
+  display: block;
+  width:100%;
+  height: 275rpx;
+  line-height: 275rpx;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  content: attr(data-text);
+  color: #FFF;
+ }
 .text-footer {
   color: #aaa;
   text-align: center;
   font-size: 14px;
-  margin: 15px auto;
+  margin: 0px auto;
 }
 </style>

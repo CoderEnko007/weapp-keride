@@ -1,6 +1,10 @@
 /*
 七牛云配置
 */
+const jwt = require('jsonwebtoken')
+const config = require('../config')
+const util = require('util')
+const verify = util.promisify(jwt.verify)
 const qiniu = require('qiniu')
 
 // 创建上传凭证
@@ -13,12 +17,39 @@ const options = {
 };
 
 async function get(ctx) {
-  const putPolicy = new qiniu.rs.PutPolicy(options);
-  const uploadToken = putPolicy.uploadToken(mac);
+  const token = ctx.header.authorization;
+  if(token) {
+    let payload;
+    try {
+      payload = await verify(token.split(' ')[1], config.sign);  // 解密payload，获取用户名和ID
+      // ctx.user中存放登陆者信息，可以在getUserInfo中获取
+      console.log(payload)
 
-  ctx.state.data = {
-    token: uploadToken
+      const putPolicy = new qiniu.rs.PutPolicy(options);
+      const uploadToken = putPolicy.uploadToken(mac);
+
+      ctx.state.data = {
+        token: uploadToken
+      }
+    } catch (err) {
+      console.log('token verify fail: ', err)
+      ctx.body = {
+        code: -1,
+        data: {
+          error: '认证失败'
+        }
+      }
+    }
+  } else {
+    ctx.body = {
+      code: -1,
+      data: {
+        error: '认证失败'
+      }
+    }
   }
+
+
 }
 
 module.exports = {

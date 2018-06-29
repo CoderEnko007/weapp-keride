@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     handleClick(item) {
-      this.$emit('swiperClick', item.id)
+      this.$emit('swiperClick', item)
     }
   }
 }

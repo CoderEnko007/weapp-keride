@@ -1,8 +1,7 @@
 <template>
 <div class="container" v-show="show">
-  <div class="header">
+  <div class="header" data-text="联系我们">
     <img :src="backgroundImage" mode="aspectFill">
-    <div class="hTitle">联系我们</div>
   </div>
   <div class="contactList">
     <div class="contact-item" v-for="(item, index) in contacts" :key="index">
@@ -29,8 +28,8 @@
         <span class="content" @click="copyText(item.email)">{{item.email}}</span>
       </div>
     </div>
-    <!--<button @click="upload">测试</button>-->
     <button open-type="contact" class="contact zan-btn--primary">联系客服</button>
+    <!--<button @click="upload">测试</button>-->
   </div>
   <floatBtnGroup></floatBtnGroup>
 </div>
@@ -47,7 +46,7 @@
     data() {
       return {
         show: false,
-        backgroundImage: global.background,
+        backgroundImage: global.contact,
         contacts: [],
         markers: []
       }
@@ -147,6 +146,7 @@
 <style lang="scss" scoped>
 .contactList {
   margin: 20px;
+  padding-bottom: 20px;
   .contact-item {
     margin-top: 20px;
     #map {
