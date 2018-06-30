@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" v-if="showPage">
   <Swiper :banners="banners" @swiperClick="swiperClick" v-if="banners"></Swiper>
   <div class="navTab">
     <div class="navItem" v-for="(item, index) in navTab" :key="index" @click="navTabClick(item)">
@@ -10,9 +10,11 @@
   <div class="intro" v-if="intro">
     <img :src="intro.image" mode="aspectFill">
     <div class="about">
-      <div class="title">关于我们</div>
-      <p class="text zan-ellipsis--l3">{{intro.text}}</p>
-      <button class="more" @click="moreIntro">了解更多</button>
+      <div class="title">
+        <span>关于我们</span>
+        <button class="textBtn" @click="moreIntro">更多 >></button>
+      </div>
+      <p class="text">{{intro.text}}</p>
     </div>
   </div>
   <div class="card-block" v-if="productsList">
@@ -82,6 +84,8 @@ export default {
         let text = res.data.text.replace(/<[^>]*>|/g,""); //去除HTML tag
         text = text.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
         text = text.replace(/&nbsp;/ig,'');//去掉&nbsp;
+        text = text.replace(/&ldquo;/ig,'');//去掉&ldquo;
+        text = text.replace(/&rdquo;/ig,'');//去掉&rdquo;
         this.intro.text = text.replace(/\s/g,''); //将空格去掉
         this.handleStopPullDown();
       })
@@ -104,6 +108,8 @@ export default {
           let desc = v.desc.replace(/<[^>]*>|/g,""); //去除HTML tag
           desc = desc.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
           desc = desc.replace(/&nbsp;/ig,'');//去掉&nbsp;
+          desc = desc.replace(/&ldquo;/ig,'');//去掉&ldquo;
+          desc = desc.replace(/&rdquo;/ig,'');//去掉&rdquo;
           item.desc = desc.replace(/\s/g,''); //将空格去掉
 
           let date = new Date(v.create_time);
@@ -202,7 +208,7 @@ export default {
 }
 .intro {
   position: relative;
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   width: 100%;
   height: 350rpx;
@@ -216,21 +222,27 @@ export default {
   }
   .about {
     position: absolute;
-    top: 15px;
+    top: 0;
+    bottom: 0;
     left: 0;
-    width: 90%;
-    margin: 5px 15px;
+    padding: 15px 15px;
     overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
     .text {
       margin-top: 15px;
       text-indent:2em;
+      max-height: 100px;
+      line-height: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display:-webkit-box;
+      -webkit-line-clamp:5;
+      -webkit-box-orient:vertical
     }
     .more {
       float: right;
       color: white;
       width: 100px;
-      /*height: 30px;*/
-      /*line-height: 30px;*/
       margin-top: 10px;
       margin-right: 15px;
       padding: 0;
@@ -238,6 +250,19 @@ export default {
       border: 1px solid white;
       border-radius: 20px;
       background-color: transparent;
+    }
+    .textBtn {
+      float: right;
+      font-size: 14px;
+      color: #e5e5e5;
+      background-color: transparent;
+      border-radius:0;
+      margin: 0;
+      padding: 0;
+      line-height: 60rpx;
+    }
+    .textBtn::after {
+      border: none;
     }
   }
 }
@@ -253,8 +278,6 @@ export default {
   }
   button {
     width: 100px;
-    /*height: 30px;*/
-    /*line-height: 30px;*/
     margin: 5px auto;
     padding: 0;
     font-size: 12px;
@@ -266,8 +289,5 @@ export default {
 }
 .gray-background {
   background-color: #EEE;
-}
-.more {
-
 }
 </style>

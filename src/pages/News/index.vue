@@ -46,6 +46,8 @@
             let desc = v.desc.replace(/<[^>]*>|/g,""); //去除HTML tag
             desc = desc.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
             desc = desc.replace(/&nbsp;/ig,'');//去掉&nbsp;
+            desc = desc.replace(/&ldquo;/ig,'');//去掉&ldquo;
+            desc = desc.replace(/&rdquo;/ig,'');//去掉&rdquo;
             item.desc = desc.replace(/\s/g,''); //将空格去掉
 
             let date = new Date(v.create_time);
