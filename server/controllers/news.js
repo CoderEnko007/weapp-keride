@@ -56,7 +56,6 @@ async function patch(ctx) {
 async function get(ctx) {
   const {title, sort, page=1, pageSize=5} = ctx.request.query;
 
-  console.log(sort, page, pageSize)
   let count = mysql('news')
   let newsList = mysql('news').select('*').orderBy('id', sort)
 
@@ -81,7 +80,6 @@ async function getDetail(ctx) {
   let news = await mysql('news').select('*')
     .where('id', id)
     .first();
-  console.log(news);
   ctx.state.data = news
 }
 

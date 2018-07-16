@@ -9,17 +9,6 @@
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
 
-CREATE TABLE `banner` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(100) NOT NULL,
-  `index` int(11) NOT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `product_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `products_banner_product_id_335d2e40_fk_products_products_id` (`product_id`) USING BTREE,
-  CONSTRAINT `banner_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8
-
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
@@ -79,3 +68,14 @@ CREATE TABLE `products` (
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `products_products_category_id_0cfaa6ce_fk_products_category_id` (`category_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8
+
+CREATE TABLE `banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` varchar(100) NOT NULL,
+  `index` int(11) NOT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `product_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `products_banner_product_id_335d2e40_fk_products_products_id` (`product_id`) USING BTREE,
+  CONSTRAINT `banner_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8

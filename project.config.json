@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"qcloudRoot": "./server/",
 	"compileType": "miniprogram",
-	"appid": "wx1784c6c7a56410c9",
+	"appid": "wx905e6fc8930dfce4",
 	"projectname": "weapp-keride",
 	"condition": {
 		"search": {

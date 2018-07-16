@@ -4,9 +4,9 @@ const CONF = {
     // tunnelServerUrl: '',
     // tunnelSignatureKey: '27fb7d1c161b7ca52d73cce0f1d833f9f5b5ec89',
     // // 腾讯云相关配置可以查看云 API 秘钥控制台：https://console.cloud.tencent.com/capi
-    // qcloudAppId: '1256812186',
-    // qcloudSecretId: 'AKIDFNJ4g6aE2e2B8shdfS2NSIvgGenjPwFS',
-    // qcloudSecretKey: 'QmunQnxrVu40h8JI9rmXBettfBVhgPzM',
+    // qcloudAppId: '1257114427',
+    // qcloudSecretId: 'AKIDiIfplV8QYR6WgascjdJkz0mMiphJ8qmT',
+    // qcloudSecretKey: 'av1rSovoTv86sSnxtdDaliRvBCzYx89v',
     // wxMessageToken: 'weixinmsgtoken',
     // networkTimeout: 30000,
 
@@ -27,15 +27,23 @@ const CONF = {
      * 若使用了腾讯云微信小程序解决方案
      * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
      */
-    //wx1784c6c7a56410c9
+    //wx905e6fc8930dfce4
     mysql: {
         host: 'localhost',
         port: 3306,
         user: 'root',
-        db: 'cKeride',
-        pass: 'wx1784c6c7a56410c9',
+        db: 'cAuth',
+        pass: 'wx905e6fc8930dfce4',
         char: 'utf8mb4'
     },
+    // mysql: {
+    //   host: 'localhost',
+    //   port: 3306,
+    //   user: 'root',
+    //   db: 'cKeride',
+    //   pass: '',
+    //   char: 'utf8mb4'
+    // },
 
     cos: {
         /**
@@ -53,7 +61,7 @@ const CONF = {
     wxLoginExpires: 7200,
     wxMessageToken: 'abcdefgh',
 
-    "sign": "wx1784c6c7a56410c9"
+    "sign": "wx905e6fc8930dfce4"
 }
 
 module.exports = CONF

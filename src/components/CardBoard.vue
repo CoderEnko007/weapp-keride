@@ -24,7 +24,6 @@ export default {
   props: ['list'],
   methods: {
     handleClick(item) {
-      console.log(item.id)
       this.$emit('cardClick', item.id)
     }
   },

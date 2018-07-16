@@ -24,8 +24,6 @@ module.exports = function () {
         }
       }
 
-      console.log(`token: ${token}`);
-
       await next()
     } catch (err) {
       if (err.status === 401) {

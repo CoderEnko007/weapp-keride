@@ -26,27 +26,31 @@ async function adminLogin (ctx) {
     } else {
       ctx.body = {
         code: -1,
-        message: '用户名或密码错误'
+        data: {
+          error: '用户名或密码错误'
+        }
       }
     }
   } else {
     ctx.body = {
       code: -1,
-      message: '用户名不存在'
+      data: {
+        error: '用户名不存在'
+      }
     }
   }
 }
 
 async function createAdminUser (ctx) {
   const user = ctx.request.body;
-  console.log(user)
   if (user.password && user.username) {
     const existUser = await mysql('admin_user').select('*').where('username', user.username);
-    console.log(existUser.length)
     if (existUser.length > 0) {
       ctx.body = {
         code: -1,
-        message: '用户名已经存在'
+        data: {
+          error: '用户名已经存在'
+        }
       }
     } else {
       // 密码加密
@@ -74,7 +78,9 @@ async function createAdminUser (ctx) {
   } else {
     ctx.body = {
       code: -1,
-      message: '参数错误'
+      data: {
+        error: '参数错误'
+      }
     }
   }
 }

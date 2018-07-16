@@ -45,16 +45,16 @@ export default {
       width: 300rpx;
       height: 300rpx;
       border-radius: 15px;
-      box-shadow: 5px 5px 10px #ccc;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.275);
       top: 0;
       left: 0;
       transition: all 0.1s;
     }
     img:active {
       position: relative;
-      box-shadow: 1px 1px 2px #ccc;
-      top: 5px;
-      left: 5px;
+      box-shadow: none;
+      top: 3px;
+      left: 3px;
     }
     p {
       width: 250rpx;

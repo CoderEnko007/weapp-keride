@@ -25,7 +25,7 @@ export default {
   components: {
     wxParse,
     TitleHeader,
-    floatBtnGroup
+    floatBtnGroup,
   },
   data() {
     return {
@@ -37,7 +37,6 @@ export default {
     getDetail() {
       getProductDetail(this.product.id).then(res => {
         this.product = res.data
-        console.log(this.product)
         this.show = true;
         let date = new Date(res.data.create_time);
         this.product.create_time = formatTime(date);
@@ -45,10 +44,12 @@ export default {
     }
   },
   mounted() {
-    this.show = false;
-    this.product = Object.assign({}, defaultProduct);
     this.product.id = this.$root.$mp.query.id;
     this.getDetail();
+  },
+  onUnload() {
+    this.show = false;
+    this.product = Object.assign({}, defaultProduct);
   },
   onShareAppMessage(res) {
     if (res.from === 'button') {

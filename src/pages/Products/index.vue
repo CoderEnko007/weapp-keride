@@ -6,6 +6,7 @@
   <div class="tabBar" v-if="category.list">
     <ZanTab v-bind="category" :componentId="'category'" @change="handleZanTabChange"/>
   </div>
+  <SearchBar @handleConfirm="handleSearch"></SearchBar>
   <div class="productList" v-if="productsList">
     <CardList :list="productsList" @cardClick="handleCardClick"></CardList>
     <p class="text-footer" v-if="!more">没有更多数据</p>
@@ -17,11 +18,13 @@
   import {getCategorys, getProducts} from "../../utils/api";
   import ZanTab from '../../components/zan/tab';
   import CardList from '../../components/CardList';
+  import SearchBar from '@/components/SearchBar';
 
   export default {
     components: {
       ZanTab,
       CardList,
+      SearchBar
     },
     data() {
       return {
@@ -71,7 +74,7 @@
           })
         })
       },
-      getProductsList(init, categoryId=0) {
+      getProductsList(init, categoryId=0, name=null) {
         if (init) {
           this.page = 1;
           this.more = true;
@@ -82,13 +85,17 @@
             page: this.page,
             category_id: categoryId
           }
+        } else if(name) {
+          param = {
+            page: 1,
+            name: name
+          }
         } else {
           param = { page: this.page }
         }
         wx.showNavigationBarLoading();
         getProducts(param)
           .then(res => {
-            console.log(res)
             let list = res.data.list;
             // this.loadStep += 1;
             if (init) {
@@ -113,12 +120,14 @@
             wx.stopPullDownRefresh();
             wx.hideNavigationBarLoading()
           })
+      },
+      handleSearch(value) {
+        this.getProductsList(true, 0, value)
       }
     },
     mounted() {
       this.initCategoryTabbar();
       this.getProductsList(true);
-      console.log(this.backgroundImage)
     },
     onPullDownRefresh() {
       this.initCategoryTabbar();

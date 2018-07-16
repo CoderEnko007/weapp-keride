@@ -2,12 +2,10 @@ const {mysql} = require("../qcloud");
 
 async function post(ctx) {
   const {name, latitude, longitude, address, phone, email, fax, zipcode} = ctx.request.body;
-  console.log(ctx.request.body)
   try {
     let contact_id = await mysql('contact').insert({
       name, latitude, longitude, address, phone, email, fax, zipcode
     });
-    console.log('bbb',contact_id)
     ctx.state.data = {
       id: contact_id,
       msg: 'success'

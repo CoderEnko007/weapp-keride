@@ -43,7 +43,6 @@ async function patch(ctx) {
   const {id, name, image, desc, category_id} = ctx.request.body;
 
   const origName = await mysql('products').select('name').where('id', id).first();
-  console.log(origName.name, name)
   if (origName.name !== name) {
     const findRes = await mysql('products').where('name',name);
     if (findRes.length) {

@@ -82,7 +82,6 @@
         })
       },
       openMap(v) {
-        console.log(Number(v.latitude), Number(v.longitude),v.name,v.address)
         wx.openLocation({
           latitude: Number(v.latitude),
           longitude: Number(v.longitude),

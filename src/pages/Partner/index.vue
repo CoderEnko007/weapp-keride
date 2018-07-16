@@ -31,7 +31,6 @@
     methods: {
       getPartnerList() {
         getPartner().then(res => {
-          console.log(res)
           this.show = true;
           this.list = res.data;
         })

@@ -45,10 +45,12 @@
       }
     },
     mounted() {
-      this.show = false;
-      this.newsDetail = Object.assign({}, defaultNews);
       this.newsDetail.id = this.$root.$mp.query.id;
       this.getDetail()
+    },
+    onUnload() {
+      this.show = false;
+      this.newsDetail = Object.assign({}, defaultNews);
     },
     onShareAppMessage(res) {
       if (res.from === 'button') {
