@@ -93,7 +93,6 @@ export default {
     initProducts() {
       getProducts({ page: 1 }).then(res => {
         this.productsList = res.data.list.slice(0, 4);
-        console.log(this.productsList)
         this.handleStopPullDown();
       })
     },
@@ -121,7 +120,6 @@ export default {
       })
     },
     swiperClick(item) {
-      console.log(item)
       wx.navigateTo({
         url: `/pages/ProductDetail/main?id=${item.product.id}`
       })

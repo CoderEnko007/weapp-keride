@@ -57,7 +57,7 @@ async function patch(ctx) {
   }
 
   try {
-    await mysql('products').select('*').where('id', id).first().update({
+    await mysql('products').where('id', id).first().update({
       name, image, desc, category_id
     });
     ctx.state.data = Object.assign({}, {
@@ -91,9 +91,9 @@ async function getDetail(ctx) {
   let click_nums = product.click_nums;
 
   if (product) {
-    category = await mysql('category').select('*').where('id', product.category_id).first();
+    category = await mysql('category').where('id', product.category_id).first();
     if (!ctx.header.authorization) {
-      await mysql('products').select('*').where('id', id).update({
+      await mysql('products').where('id', id).update({
         click_nums: click_nums+1
       })
     }

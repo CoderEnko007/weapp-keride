@@ -12,11 +12,13 @@
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
+  `category_type` int(1) DEFAULT NULL,
+  `parent_category` int(11) DEFAULT NULL,
   `desc` longtext,
   `nums` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8
 
 CREATE TABLE `contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
