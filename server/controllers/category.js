@@ -1,8 +1,8 @@
 const {mysql} = require('../qcloud');
 
 const CATEGORY_TYPE = {
-  level1: 1,
-  level2: 2
+  level1: {id: 1, text: "一级分类"},
+  level2: {id: 2, text: "二级分类"},
 }
 
 async function post(ctx) {
@@ -18,11 +18,11 @@ async function post(ctx) {
     return
   }
   // 判断分类级别
-  let category_type = CATEGORY_TYPE.level1
+  let category_type = CATEGORY_TYPE.level1.id
   if (parent_category) {
     let findRes = await mysql('category').where('id', parent_category)
     if (findRes.length) {
-      category_type = CATEGORY_TYPE.level2
+      category_type = CATEGORY_TYPE.level2.id
     } else {
       ctx.state = {
         code: -1,
@@ -30,6 +30,7 @@ async function post(ctx) {
           error: '该父类不存在'
         }
       };
+      return
     }
   }
   let category_id = await mysql('category').insert({
@@ -45,11 +46,11 @@ async function post(ctx) {
 async function patch(ctx) {
   const {id, name, desc, parent_category} = ctx.request.body;
   // 判断分类级别
-  let category_type = CATEGORY_TYPE.level1
+  let category_type = CATEGORY_TYPE.level1.id
   if (parent_category) {
     let findRes = await mysql('category').where('id', parent_category)
     if (findRes.length) {
-      category_type = CATEGORY_TYPE.level2
+      category_type = CATEGORY_TYPE.level2.id
     } else {
       ctx.state = {
         code: -1,
@@ -91,6 +92,7 @@ async function calcNums(category_id) {
 
 async function get(ctx) {
   const {id} = ctx.params;
+  const {category_type, parent_category} = ctx.request.query;
   if (id) {
     let categories = mysql('category').where('id', id).first();
     if (categories) {
@@ -112,7 +114,14 @@ async function get(ctx) {
       }
     }
   } else {
-    let categories = await mysql('category').select('*');
+    let condition = {}
+    if (category_type) {
+      condition.category_type = category_type
+    }
+    if (parent_category) {
+      condition.parent_category = parent_category
+    }
+    let categories = await mysql('category').where(condition);
     let nums = [];
     for( let index in categories) {
       if (categories.hasOwnProperty(index)) {
@@ -121,14 +130,36 @@ async function get(ctx) {
     }
 
     ctx.state.data = {
-      list: categories.map(v => {
+      list: await Promise.all(categories.map(async v => {
+        let text = null
+        for(let item in CATEGORY_TYPE) {
+          if (CATEGORY_TYPE[item].id === v.category_type) {
+            text = CATEGORY_TYPE[item].text
+          }
+        }
+        let parent_category = {}
+        if (v.parent_category) {
+          parent_category.id = v.parent_category
+          let findRes = await mysql('category').select('name').where('id', v.parent_category).first()
+          if (findRes) {
+            parent_category.name = findRes.name
+          } else {
+            parent_category.name = '父类不存在'
+          }
+        }
+
         return Object.assign({}, {
           id: v.id,
           name: v.name,
           desc: v.desc,
-          nums: nums[v.id]
+          nums: nums[v.id],
+          category_type: {
+            id: v.category_type,
+            text: text
+          },
+          parent_category: parent_category
         })
-      })
+      }))
     };
   }
 }
@@ -144,9 +175,19 @@ async function del(ctx) {
       }
     }
   } else {
-    await mysql('category').where('id', id).del();
-    ctx.state.data = {
-      msg: '删除成功'
+    findRes = await mysql('category').where('parent_category', id)
+    if (findRes.length) {
+      ctx.state = {
+        code: -1,
+        data: {
+          error: '该分类下还有子分类，不能删除'
+        }
+      }
+    } else {
+      await mysql('category').where('id', id).del();
+      ctx.state.data = {
+        msg: '删除成功'
+      }
     }
   }
 }

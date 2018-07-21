@@ -21,7 +21,6 @@ module.exports = async function (ctx, next) {
 
         // 设置状态码为 200 - 服务端错误
         ctx.status = 200
-
         // 输出详细的错误信息
         ctx.body = {
             code: -1,
