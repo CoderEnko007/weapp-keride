@@ -1,7 +1,11 @@
 const {mysql} = require('../qcloud')
 
 async function get(ctx) {
-  const list = await mysql('partner').select('*').orderBy('create_time', 'desc');
+  const {page=1, pageSize=20} = ctx.request.query;
+  const list = await mysql('partner')
+    .select('*').limit(pageSize)
+    .offset(Number(page-1) * pageSize)
+    .orderBy('create_time', 'desc');
   ctx.state.data = list;
 }
 

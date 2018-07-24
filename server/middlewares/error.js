@@ -14,6 +14,15 @@ module.exports = function () {
         let payload;
         try {
           payload = await verify(token.split(' ')[1], config.sign);  // 解密payload，获取用户名和ID
+          if (payload.roles.indexOf('admin') < 0 && (ctx.method !== 'GET' || ctx.url === '/api/token')) {
+            ctx.body = {
+              code: -1,
+              data: {
+                error: '该用户没有编辑权限'
+              }
+            }
+            return
+          }
           // ctx.user中存放登陆者信息，可以在getUserInfo中获取
           ctx.user = {
             username: payload.username,

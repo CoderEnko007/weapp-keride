@@ -14,4 +14,4 @@ export const getNews = params => { return request.get(`${host}${prefix}/news`, p
 // export const getNewsDetail = id => { return request.get(`${host}${prefix}/news?id=${id}`)};
 export const getNewsDetail = id => { return request.get(`${host}${prefix}/news/${id}`)};
 export const getContacts = () => { return request.get(`${host}${prefix}/contacts`)};
-export const getPartner = () => { return request.get(`${host}${prefix}/partner`)};
+export const getPartner = params => { return request.get(`${host}${prefix}/partner`, params)};

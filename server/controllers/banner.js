@@ -4,7 +4,7 @@ const {mysql} = require('../qcloud')
 async function get(ctx) {
   const {id} = ctx.params;
   if (id) {
-    const banner = await mysql('banner').select('*').where('id', id).first();
+    const banner = await mysql('banner').where('id', id).first();
     let result = {};
     if (banner) {
       let product = await mysql('products').select('*').where('id', banner.product_id).first();

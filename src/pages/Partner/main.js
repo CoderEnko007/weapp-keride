@@ -6,6 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '合作伙伴'
+    navigationBarTitleText: '合作伙伴',
+    enablePullDownRefresh: true
   }
 }

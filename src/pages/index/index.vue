@@ -27,6 +27,9 @@
     <CardBoard :list="news" @cardClick="handleNewsClick"></CardBoard>
     <button class="more" @click="moreNews">查看更多</button>
   </div>
+  <div class="copy-right">
+    <span>© 客瑞德机械零部件有限公司</span>
+  </div>
 </div>
 </template>
 
@@ -287,5 +290,12 @@ export default {
 }
 .gray-background {
   background-color: #EEE;
+}
+.copy-right {
+  font-size: 12px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ccc;
 }
 </style>

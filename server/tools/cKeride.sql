@@ -58,18 +58,19 @@ CREATE TABLE `partner` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8
 
-CREATE TABLE `products` (
+ CREATE TABLE `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `image` varchar(100) NOT NULL,
   `click_nums` int(11) NOT NULL DEFAULT '0',
   `desc` longtext NOT NULL,
-  `create_time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   `category_id` int(11) DEFAULT NULL,
+  `parent_category_id` int(11) DEFAULT NULL,
+  `create_time` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `products_products_category_id_0cfaa6ce_fk_products_category_id` (`category_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8
 
 CREATE TABLE `banner` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

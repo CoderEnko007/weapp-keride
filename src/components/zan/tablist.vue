@@ -43,4 +43,7 @@
   color:black;
   border-bottom:2px solid black;
 }
+.zan-tab__bd {
+  padding-left: 10rpx;
+}
 </style>

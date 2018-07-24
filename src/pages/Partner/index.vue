@@ -1,8 +1,7 @@
 <template>
-<div class="container" v-show="show">
+<div class="container">
   <div class="header" data-text="合作伙伴">
     <img :src="backgroundImage" mode="aspectFill">
-    <div class="hTitle">合作伙伴</div>
   </div>
   <div class="list">
     <div class="pic" v-for="(item, index) in list" :key="index" @click="previewImage(item)">
@@ -23,16 +22,36 @@
     },
     data() {
       return {
-        show: false,
         backgroundImage: global.cooperation,
-        list: []
+        list: [],
+        page: 1,
+        pageSize: 2000,
+        more: true
       }
     },
     methods: {
-      getPartnerList() {
-        getPartner().then(res => {
-          this.show = true;
-          this.list = res.data;
+      getPartnerList(init) {
+        if (init) {
+          this.page = 1
+          this.more = true
+        }
+        let params = {
+          page: this.page,
+          pageSize: this.pageSize
+        }
+        getPartner(params).then(res => {
+          let list = res.data;
+          if (init) {
+            this.list = list;
+            wx.stopPullDownRefresh();
+          } else {
+            this.list = this.list.concat(list)
+          }
+          if (this.list.length < this.pageSize) {
+            this.more = false;
+          }
+          wx.stopPullDownRefresh();
+          wx.hideNavigationBarLoading()
         })
       },
       previewImage(item) {
@@ -42,7 +61,17 @@
       }
     },
     mounted() {
-      this.getPartnerList();
+      this.getPartnerList(true);
+    },
+    onPullDownRefresh() {
+      this.getPartnerList(true)
+    },
+    onReachBottom() {
+      if (!this.more) {
+        return false
+      }
+      this.page += 1;
+      this.getPartnerList(false);
     },
     onShareAppMessage(res) {
       return {
@@ -63,7 +92,7 @@
     margin-bottom: 15px;
     margin-top: 5px;
     padding: 5px;
-    box-shadow: 0 0 15px #CCC;
+    /*box-shadow: 0 0 15px #CCC;*/
     border: solid 1px #eee;
     border-radius: 4px;
     break-inside: avoid;

@@ -36,14 +36,15 @@ export default {
 .card-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   .card {
     padding: 5rpx;
     text-align: center;
     font-size: 14px;
-    margin: 25rpx 17rpx 25rpx;
+    margin: 5rpx 0rpx 15rpx;
     img {
-      width: 300rpx;
-      height: 300rpx;
+      width: 326rpx;
+      height: 326rpx;
       border-radius: 15px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.275);
       top: 0;

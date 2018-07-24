@@ -42,6 +42,7 @@ export default {
       line-height: 20px;
       background-color: transparent;
       font-weight: bold;
+      color: #206994;
     }
     .share::after {
       border: none;

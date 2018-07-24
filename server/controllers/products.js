@@ -2,7 +2,7 @@ const {mysql} = require('../qcloud');
 
 async function post(ctx) {
   const {name, image, desc, category_id} = ctx.request.body;
-  const findRes = await mysql('products').select('*').where('name',name);
+  let findRes = await mysql('products').select('*').where('name',name);
   if (findRes.length) {
     ctx.state = {
       code: -1,
@@ -12,10 +12,13 @@ async function post(ctx) {
     };
     return
   }
+  findRes = await mysql('category').select('parent_category').where('id', category_id).first()
+  let params = {name, image, desc, category_id}
+  if (findRes) {
+    params = {name, image, desc, category_id, parent_category_id: findRes.parent_category}
+  }
   try {
-    let product_id = await mysql('products').insert({
-      name, image, desc, category_id
-    });
+    let product_id = await mysql('products').insert(params);
     ctx.state.data = {
       id: product_id,
       msg: 'success'
@@ -56,10 +59,13 @@ async function patch(ctx) {
     }
   }
 
+  let findRes = await mysql('category').select('parent_category').where('id', category_id).first()
+  let params = {name, image, desc, category_id}
+  if (findRes) {
+    params = {name, image, desc, category_id, parent_category_id: findRes.parent_category}
+  }
   try {
-    await mysql('products').where('id', id).first().update({
-      name, image, desc, category_id
-    });
+    await mysql('products').where('id', id).first().update(params);
     ctx.state.data = Object.assign({}, {
       name: name,
       msg: 'success'
@@ -101,13 +107,14 @@ async function getDetail(ctx) {
   ctx.state.data = Object.assign({}, product, {
     category: {
       id: category.id,
-      name: category.name
+      name: category.name,
+      parent_category_id: category.parent_category
     }
   })
 }
 
 async function get(ctx) {
-  const {name, category_id, sort, page=1, pageSize = 6} = ctx.request.query;
+  const {name, category_id, parent_category_id, sort='asc', page=1, pageSize = 6} = ctx.request.query;
   let count = mysql('products')
 
   let list = mysql('products')
@@ -116,7 +123,10 @@ async function get(ctx) {
     .limit(pageSize)
     .offset(Number(page-1) * pageSize);
 
-  if (category_id) {
+  if (parent_category_id) {
+    list = list.where('products.parent_category_id', parent_category_id)
+    count = count.where('parent_category_id', parent_category_id)
+  } else if (category_id) {
     list = list.where('products.category_id', category_id)
     count = count.where('category_id', category_id)
   }
@@ -150,7 +160,8 @@ async function get(ctx) {
 
 async function del(ctx) {
   const {id} = ctx.params;
-  await mysql('products').select('*').where('id', id).del();
+  await mysql('banner').where('product_id', id).del();
+  await mysql('products').where('id', id).del();
   ctx.state.data = {
     msg: '删除成功'
   }

@@ -60,11 +60,14 @@ async function patch(ctx) {
       };
     }
   }
+
   let category = mysql('category').where('id', id).first()
   if(category) {
-    await category.update({
-      name, desc, category_type, parent_category
-    });
+    let params = {name, desc, category_type, parent_category}
+    if (parent_category === null || parent_category === '') {
+      params = {name, desc, category_type}
+    }
+    await category.update(params);
     ctx.state.data = {
       name: name,
       msg: 'success'

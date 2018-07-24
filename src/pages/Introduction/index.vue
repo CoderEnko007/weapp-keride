@@ -1,8 +1,7 @@
 <template>
 <div id="intro" v-if="intro">
-  <div class="header" >
+  <div class="header" data-text="关于我们">
     <img :src="intro.image" mode="aspectFill">
-    <div class="hTitle">关于我们</div>
   </div>
   <div class="body">
     <div class="text">

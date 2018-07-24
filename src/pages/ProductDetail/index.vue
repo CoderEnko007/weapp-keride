@@ -69,6 +69,7 @@ export default {
   .body {
     font-size: 14px;
     margin: 15px 0;
+    margin-top: 5px;
   }
 }
 </style>

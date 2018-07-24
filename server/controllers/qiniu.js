@@ -22,7 +22,6 @@ async function get(ctx) {
     let payload;
     try {
       payload = await verify(token.split(' ')[1], config.sign);  // 解密payload，获取用户名和ID
-      // ctx.user中存放登陆者信息，可以在getUserInfo中获取
 
       const putPolicy = new qiniu.rs.PutPolicy(options);
       const uploadToken = putPolicy.uploadToken(mac);
