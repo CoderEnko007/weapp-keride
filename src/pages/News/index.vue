@@ -1,6 +1,6 @@
 <template>
 <div class="news-container">
-  <div class="header" data-text="新闻动态">
+  <div class="header" data-text="信息资讯">
     <img :src="backgroundImage" mode="aspectFill">
   </div>
   <div class="newsList">
@@ -12,6 +12,7 @@
 </template>
 <script>
   import global from '../../utils/global';
+  import {strDisCode} from "../../utils/index";
   import {getNews} from "../../utils/api";
   import index from '../../utils/index';
   import CardBoard from '../../components/CardBoard'
@@ -49,6 +50,7 @@
             desc = desc.replace(/&ldquo;/ig,'');//去掉&ldquo;
             desc = desc.replace(/&rdquo;/ig,'');//去掉&rdquo;
             item.desc = desc.replace(/\s/g,''); //将空格去掉
+            item.desc = strDisCode(item.desc)
 
             let date = new Date(v.create_time);
             item.create_time = index.formatTime(date);

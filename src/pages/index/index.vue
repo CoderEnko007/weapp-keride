@@ -11,7 +11,7 @@
     <img :src="intro.image" mode="aspectFill">
     <div class="about">
       <div class="title">
-        <span>关于我们</span>
+        <span>关于我们</span><span><b>aaa</b></span>
         <button class="textBtn" @click="moreIntro">更多 >></button>
       </div>
       <p class="text">{{intro.text}}</p>
@@ -23,7 +23,7 @@
     <button class="more" @click="moreProducts">查看更多</button>
   </div>
   <div class="card-block" v-if="news">
-    <div class="title">新闻动态</div>
+    <div class="title">信息资讯</div>
     <CardBoard :list="news" @cardClick="handleNewsClick"></CardBoard>
     <button class="more" @click="moreNews">查看更多</button>
   </div>
@@ -35,7 +35,7 @@
 
 <script>
 import index from '../../utils/index';
-import global from '../../utils/global';
+import {strDisCode} from "../../utils/index";
 import {getBanners, getIntro, getProducts, getNews} from "../../utils/api";
 import Swiper from '@/components/Swiper';
 import CardList from '@/components/CardList';
@@ -57,7 +57,7 @@ export default {
         {icon: '/static/img/company.png', text: '公司简介', url: '/pages/Introduction/main', isTab: false},
         {icon: '/static/img/product1.png', text: '产品中心', url: '/pages/Products/main', isTab: true},
         {icon: '/static/img/partner.png', text: '合作伙伴', url: '/pages/Partner/main', isTab: false},
-        {icon: '/static/img/news.png', text: '新闻动态', url: '/pages/News/main', isTab: false},
+        {icon: '/static/img/news.png', text: '信息咨询', url: '/pages/News/main', isTab: false},
         {icon: '/static/img/contact1.png', text: '联系我们', url: '/pages/Contact/main', isTab: true},
       ],
       backgroundImage: '',
@@ -90,6 +90,7 @@ export default {
         text = text.replace(/&ldquo;/ig,'');//去掉&ldquo;
         text = text.replace(/&rdquo;/ig,'');//去掉&rdquo;
         this.intro.text = text.replace(/\s/g,''); //将空格去掉
+        this.intro.text = strDisCode(this.intro.text)
         this.handleStopPullDown();
       })
     },
@@ -113,6 +114,7 @@ export default {
           desc = desc.replace(/&ldquo;/ig,'');//去掉&ldquo;
           desc = desc.replace(/&rdquo;/ig,'');//去掉&rdquo;
           item.desc = desc.replace(/\s/g,''); //将空格去掉
+          item.desc = strDisCode(item.desc)
 
           let date = new Date(v.create_time);
           item.create_time = index.formatTime(date);
@@ -193,6 +195,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  padding-bottom: 20px;
+}
 .navTab {
   margin: 12px 10rpx;
   .navItem {
@@ -290,12 +295,5 @@ export default {
 }
 .gray-background {
   background-color: #EEE;
-}
-.copy-right {
-  font-size: 12px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #ccc;
 }
 </style>

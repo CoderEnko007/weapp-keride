@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '新闻动态'
+    navigationBarTitleText: '信息资讯'
   }
 }

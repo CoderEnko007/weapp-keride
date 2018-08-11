@@ -4,12 +4,15 @@
     <div class="body">
       <wxParse :content="newsDetail.desc" noData=""/>
     </div>
+    <div class="copy-right">
+      <span>© 客瑞德机械零部件有限公司</span>
+    </div>
     <floatBtnGroup></floatBtnGroup>
   </div>
 </template>
 <script>
-  import {formatTime} from '../../utils/index';
-  import {getNewsDetail} from "../../utils/api";
+  import {formatTime, strDisCode} from '@/utils';
+  import {getNewsDetail} from "@/utils/api";
   import wxParse from 'mpvue-wxparse';
   import TitleHeader from '../../components/TitleHeader';
   import floatBtnGroup from '@/components/floatBtnGroup';
@@ -38,6 +41,7 @@
       getDetail() {
         getNewsDetail(this.newsDetail.id).then(res => {
           this.newsDetail = res.data;
+          this.newsDetail.desc = strDisCode(this.newsDetail.desc)
           this.show = true;
           let date = new Date(res.data.create_time);
           this.newsDetail.create_time = formatTime(date);
@@ -66,8 +70,7 @@
 </script>
 <style lang="scss" scoped>
 .container {
-  margin: 15px;
-  padding-bottom: 5px;
+  padding: 15px;
   .body {
     font-size: 14px;
     margin: 15px 0;

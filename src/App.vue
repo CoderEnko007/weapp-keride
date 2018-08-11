@@ -63,11 +63,26 @@ export default {
   background-color: rgba(0, 0, 0, 0.3);
   content: attr(data-text);
   color: #FFF;
+  animation:titleMotion 3s;
  }
+@keyframes titleMotion
+{
+  0%   {transform: scale(5); color: rgba(255, 255, 255, 0);}
+  100% {transform: scale(1); color: rgba(255, 255, 255, 255);}
+}
 .text-footer {
   color: #aaa;
   text-align: center;
   font-size: 14px;
   margin: 0px auto;
+}
+.wxParse .p {
+  margin: 0
+}
+.copy-right {
+  font-size: 12px;
+  margin-top: 10px;
+  text-align: center;
+  color: #ccc;
 }
 </style>

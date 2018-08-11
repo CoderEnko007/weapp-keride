@@ -11,7 +11,7 @@
     </block>
     <block wx:else>
       <div class="zan-tab__bd" :class="{ 'zan-tab__bd--fixed' : fixed }">
-        <ZanTabList v-bind="{ list, selectedId, componentId }" @change="_change"/>
+        <ZanTabList v-bind="{ list, selectedId, componentId, isCenter }" @change="_change"/>
       </div>
     </block>
   </div>
@@ -22,7 +22,7 @@
   import ZanTabList from './tablist'
   const maohao = ':'
   export default {
-    props: ['scroll', 'fixed', 'height', 'list', 'selectedId', 'componentId'],
+    props: ['scroll', 'fixed', 'height', 'list', 'selectedId', 'componentId', 'isCenter'],
     components: {
       ZanTabList
     },
@@ -45,7 +45,7 @@
     },
     mounted() {
 
-    }
+    },
   }
 </script>
 

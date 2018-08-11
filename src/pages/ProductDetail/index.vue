@@ -4,11 +4,14 @@
     <div class="body">
       <wxParse :content="product.desc" noData=""/>
     </div>
+    <div class="copy-right">
+      <span>© 客瑞德机械零部件有限公司</span>
+    </div>
     <floatBtnGroup></floatBtnGroup>
   </div>
 </template>
 <script>
-import {formatTime} from '../../utils/index';
+import {formatTime, strDisCode} from '../../utils/index';
 import {getProductDetail} from "../../utils/api";
 import wxParse from 'mpvue-wxparse';
 import TitleHeader from '../../components/TitleHeader';
@@ -37,6 +40,8 @@ export default {
     getDetail() {
       getProductDetail(this.product.id).then(res => {
         this.product = res.data
+        this.product.desc = strDisCode(this.product.desc)
+        console.log(this.product.desc)
         this.show = true;
         let date = new Date(res.data.create_time);
         this.product.create_time = formatTime(date);
@@ -65,7 +70,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  margin: 15px;
+  padding: 15px;
   .body {
     font-size: 14px;
     margin: 15px 0;

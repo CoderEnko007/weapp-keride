@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{center: isCenter}">
     <div
       v-for="item in list"
       :key="id"
@@ -17,7 +17,7 @@
 <script>
   import {extractComponentId} from '../../utils/helper'
   export default {
-    props: ['list', 'selectedId', 'componentId', '_handleZanTabChange'],
+    props: ['list', 'selectedId', 'componentId', '_handleZanTabChange', 'isCenter'],
     methods: {
       __change (e) {
         const componentId = extractComponentId(e)
@@ -26,7 +26,7 @@
         const data = { componentId, selectedId }
         this.$emit('change', data)
       }
-    }
+    },
   }
 </script>
 
@@ -40,10 +40,14 @@
 }
 .zan-tab__item--selected .zan-tab__title{
   font-weight: bold;
-  color:black;
-  border-bottom:2px solid black;
+  color:#206994;
+  border-bottom:2px solid #206994;
 }
 .zan-tab__bd {
   padding-left: 10rpx;
+}
+.center {
+  display: flex;
+  width: 100%;
 }
 </style>

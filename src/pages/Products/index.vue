@@ -268,6 +268,6 @@
   height: 70rpx;
 }
 .productList {
-  margin: 10px 15px 0;
+  margin: 10px 15px;
 }
 </style>
